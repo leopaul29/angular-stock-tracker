@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { StockTrackingService } from '../core/stock-tracking.service';
+import { IStock } from '../model/stock';
 
 @Component({
   selector: 'app-stock-form',
@@ -8,7 +10,11 @@ import { Component, OnInit } from '@angular/core';
 export class StockFormComponent implements OnInit {
   // https://finnhub.io/api/v1/stock/insider-sentiment?symbol=TSLA&from=2022-04-01&to=2022-06-01&token=bu4f8kn48v6uehqi3cqg
 
-  constructor() {}
+  constructor(private stockTrackingService: StockTrackingService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.stockTrackingService
+      .getStock('AAPL')
+      .subscribe((data: IStock) => console.log(`subscribed: ${data}`));
+  }
 }
