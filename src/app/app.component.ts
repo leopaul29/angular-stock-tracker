@@ -1,10 +1,13 @@
 import { Component, VERSION } from '@angular/core';
+import { StocksService } from './core/stocks.service';
 
 @Component({
   selector: 'my-app',
-  templateUrl: './app.component.html',
-  styleUrls: [ './app.component.css' ]
+  template: `<app-stock-form></app-stock-form>
+  <app-stock-list></app-stock-list>
+  `,
+  styles: [],
 })
-export class AppComponent  {
-  name = 'Angular ' + VERSION.major;
+export class AppComponent {
+  constructor() {}
 }

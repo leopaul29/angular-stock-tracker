@@ -1,20 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { StockTrackingService } from '../core/stock-tracking.service';
-import { IStock } from '../model/stock';
+import { StocksService } from '../core/stocks.service';
+import { IStockCompany } from '../model/stock-tracking.model';
 
 @Component({
   selector: 'app-stock-form',
   templateUrl: './stock-form.component.html',
-  styleUrls: ['./stock-form.component.css'],
+  styles: [],
 })
 export class StockFormComponent implements OnInit {
-  // https://finnhub.io/api/v1/stock/insider-sentiment?symbol=TSLA&from=2022-04-01&to=2022-06-01&token=bu4f8kn48v6uehqi3cqg
-
-  constructor(private stockTrackingService: StockTrackingService) {}
+  stockSymbol: string;
+  // ADD VALIDATION_ERR
+  constructor(
+    private stockTrackingService: StockTrackingService,
+    private stocksService: StocksService
+  ) {}
 
   ngOnInit() {
     this.stockTrackingService
-      .getStock('AAPL')
-      .subscribe((data: IStock) => console.log(`subscribed: ${data}`));
+      .getStockQuote('AAPL')
+      .subscribe((data: IStockCompany) =>
+        console.log(`subscribed: ${JSON.stringify(data)}`)
+      );
+  }
+
+  addStock(formValues): void {
+    console.log('addStock', formValues);
+    this.stocksService.addStock(formValues.stockSymbol);
   }
 }

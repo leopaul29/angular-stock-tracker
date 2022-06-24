@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { IStockCompany } from '../model/stock-tracking.model';
 
-import { IStock } from '../model/stock';
+const STOCKTOKEN = 'bu4f8kn48v6uehqi3cqg';
 
 @Injectable()
 export class StockTrackingService {
@@ -11,21 +11,28 @@ export class StockTrackingService {
 
   // https://finnhub.io/api/v1/quote?symbol=AAPL&token=bu4f8kn48v6uehqi3cqg
 
+  // https://finnhub.io/api/v1/stock/profile2?symbol=AAPL&token=bu4f8kn48v6uehqi3cqg
+
   constructor(private http: HttpClient) {}
 
-  getStock(symbol: string): Observable<IStock> {
-    return this.http
-      .get<IStock>(
-        `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=bu4f8kn48v6uehqi3cqg`
-      )
+  getStockQuote(symbol: string): Observable<IStockCompany> {
+    return this.http.get<IStockCompany>(
+      `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${STOCKTOKEN}`
+    ); /*
       .pipe(
         map(
           (stock) =>
-            <IStock>{
+            <IStockQuote>{
               c: stock.c,
             }
         ),
         tap((stock) => console.log(JSON.stringify(stock)))
-      );
+      );*/
+  }
+
+  getStockSymbol(symbol: string): Observable<IStockCompany> {
+    return this.http.get<IStockCompany>(
+      `https://finnhub.io/api/v1/stock/profile?symbol=${symbol}&token=${STOCKTOKEN}`
+    );
   }
 }

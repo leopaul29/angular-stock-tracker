@@ -1,7 +1,7 @@
-<form>
+<form #stockForm="ngForm" (ngSubmit)="addStock(stockForm.value)">
   <p>Enter the symbol of a stock to track (i.e. AAPL, TSLA, GOOGL)</p>
   <div>
-    <input type="text" name="stockSymbol" />
+    <input type="text" name="stockSymbol" (ngModel)="(stockSymbol)" />
     <button type="submit">Track Stock</button>
   </div>
 </form>
