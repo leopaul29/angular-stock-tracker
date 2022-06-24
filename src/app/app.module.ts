@@ -7,8 +7,8 @@ import { AppComponent } from './app.component';
 import { StockFormComponent } from './stock-form/stock-form.component';
 import { StockTrackingService } from './core/stock-tracking.service';
 import { StocksService } from './core/stocks.service';
-import { StockListComponent } from './stocks/stock-list.component';
-import { StockThumbnailComponent } from './stocks/stock-thumbnail.component';
+import { StockListComponent } from './stock-list/stock-list.component';
+import { StockThumbnailComponent } from './stock-list/stock-thumbnail.component';
 import { StocksLocalStorageService } from './core/stocks-localStorage.service';
 
 @NgModule({

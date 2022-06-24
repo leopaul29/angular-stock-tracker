@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { IStockCompany } from '../model/stock-tracking.model';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { IProfile, IQuote } from '../models/stock-tracking.model';
+import { IStock } from '../models/stock.model';
 
 const STOCKTOKEN = 'bu4f8kn48v6uehqi3cqg';
 
@@ -15,25 +17,51 @@ export class StockTrackingService {
 
   constructor(private http: HttpClient) {}
 
-  getStockQuote(symbol: string): Observable<IStockCompany> {
-    return null;
-    /*return this.http.get<IStockCompany>(
-      `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${STOCKTOKEN}`
-    ); /*
+  /* name: string;
+  changeToday: number;
+  openPrice: number;
+  currentPrice: number;
+  highPrice: number;
+  */
+  getStockQuote(symbol: string): Observable<IStock> {
+    return this.http
+      .get<IQuote>(
+        `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${STOCKTOKEN}`
+      )
       .pipe(
         map(
-          (stock) =>
-            <IStockQuote>{
-              c: stock.c,
+          (s) =>
+            <IStock>{
+              changeToday: s.dp,
+              openPrice: s.o,
+              currentPrice: s.c,
+              highPrice: s.h,
             }
         ),
-        tap((stock) => console.log(JSON.stringify(stock)))
-      );*/
+        catchError(this.handleError<IStock>('quote'))
+      );
   }
 
-  getStockSymbol(symbol: string): Observable<IStockCompany> {
-    return this.http.get<IStockCompany>(
-      `https://finnhub.io/api/v1/stock/profile?symbol=${symbol}&token=${STOCKTOKEN}`
-    );
+  getStockProfile(symbol: string): Observable<IStock> {
+    return this.http
+      .get<IProfile>(
+        `https://finnhub.io/api/v1/stock/profile2?symbol=${symbol}&token=${STOCKTOKEN}`
+      )
+      .pipe(
+        map(
+          (s) =>
+            <IStock>{
+              name: s.name,
+            }
+        ),
+        catchError(this.handleError<IStock>('stock/profile2'))
+      );
+  }
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(error);
+      return of(result as T);
+    };
   }
 }

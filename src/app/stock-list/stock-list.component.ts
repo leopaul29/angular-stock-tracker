@@ -3,7 +3,7 @@ import { of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { StocksLocalStorageService } from '../core/stocks-localStorage.service';
 import { StocksService } from '../core/stocks.service';
-import { IStock } from '../model/stock.model';
+import { IStock } from '../models/stock.model';
 
 @Component({
   selector: 'app-stock-list',
@@ -14,19 +14,23 @@ import { IStock } from '../model/stock.model';
 })
 export class StockListComponent implements OnInit {
   stockList: IStock[];
-  visibleStockList = [{ c: '123' }, { c: '456' }, { c: '789' }];
+  visibleStockList: IStock[];
   constructor(
     private stocksService: StocksService,
     private stockslocalStorage: StocksLocalStorageService
   ) {}
 
   ngOnInit() {
-    this.stockList = new Array();
+    this.stocksService.generateStubStocks();
+    this.stockList = this.stocksService.getStocks();
+    this.visibleStockList = this.stockList;
+    console.log('this.visibleStockList', this.visibleStockList);
+    /*this.stockList = new Array();
     let stocksSymbol = this.stockslocalStorage.getstocklist();
-    this.buildStockList(stocksSymbol);
+    this.buildStockList(stocksSymbol);*/
   }
 
-  private buildStockList(stocksSymbol: Array<string>) {
+  /*private buildStockList(stocksSymbol: Array<string>) {
     of(stocksSymbol).pipe(
       //map((symbol) => <IStock>{ name: symbol }),
       //tap((stock) => this.stockList.push(stock))
@@ -40,6 +44,6 @@ export class StockListComponent implements OnInit {
       //this.stockList.push(stock);
       console.log(symbol);
       this.stockList.push(stock);
-    });*/
-  }
+    });
+  }*/
 }
