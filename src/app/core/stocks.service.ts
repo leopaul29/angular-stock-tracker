@@ -3,19 +3,22 @@ import { tap } from 'rxjs/operators';
 import { IStock } from '../models/stock.model';
 import { StockTrackingService } from './stock-tracking.service';
 
-@Injectable()
+@Injectable({
+  // singleton
+  providedIn: 'root',
+})
 export class StocksService {
-  stocksSymbolList: IStock[];
+  stockList: IStock[];
 
   constructor(private stockTraking: StockTrackingService) {}
 
   addStock(stockSymbol: IStock) {
-    this.stocksSymbolList.push(stockSymbol);
+    this.stockList.push(stockSymbol);
     console.log('this.addStock ss', stockSymbol);
   }
 
   getStocks(): IStock[] {
-    return this.stocksSymbolList;
+    return this.stockList;
   }
 
   generateStubStocks(): void {
@@ -24,15 +27,14 @@ export class StocksService {
     this.getStockSymbol('META');
     this.getStockSymbol('AMZN');
     this.getStockSymbol('TSLA');
-    console.log('this.stocksSymbolList ss', this.stocksSymbolList);
+    console.log('this.stocksSymbolList ss', this.stockList);
   }
 
   getStockSymbol(symbol: string): void {
-    this.stockTraking
-      .getStockProfile(symbol)
-      .pipe(tap((data) => console.log(data))); /*.subscribe(
-      (data: IStock) => this.stocksSymbolList.push(data),
+    let stock;
+    this.stockTraking.getStockProfile(symbol).subscribe(
+      (data: IStock) => (stock = data),
       (err: any) => console.log(err)
-    );*/
+    );
   }
 }
