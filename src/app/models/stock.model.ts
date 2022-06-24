@@ -1,4 +1,5 @@
 export interface IStock {
+  symbol: string;
   name: string;
   changeToday: number;
   openPrice: number;

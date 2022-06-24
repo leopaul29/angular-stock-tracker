@@ -1,5 +1,6 @@
 import { Component, OnInit, VERSION } from '@angular/core';
 import { StocksLocalStorageService } from './core/stocks-localStorage.service';
+import { StocksService } from './core/stocks.service';
 
 @Component({
   selector: 'my-app',
@@ -9,8 +10,13 @@ import { StocksLocalStorageService } from './core/stocks-localStorage.service';
   styles: [],
 })
 export class AppComponent implements OnInit {
-  constructor(private stocksLocalStorage: StocksLocalStorageService) {}
+  constructor(
+    private stocksLocalStorage: StocksLocalStorageService,
+    private stocksService: StocksService
+  ) {}
+
   ngOnInit(): void {
     this.stocksLocalStorage.load();
+    this.stocksService.generateStubStocks();
   }
 }

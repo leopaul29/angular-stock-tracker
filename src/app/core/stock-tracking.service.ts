@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { forkJoin, Observable, of } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { IProfile, IQuote, ISentiment } from '../models/stock-tracking.model';
 import { IStock } from '../models/stock.model';
 
@@ -9,6 +9,7 @@ const STOCKTOKEN = 'bu4f8kn48v6uehqi3cqg';
 
 @Injectable()
 export class StockTrackingService {
+  // https://finnhub.io/api/v1/country?token=
   constructor(private http: HttpClient) {}
 
   getStockQuote(symbol: string): Observable<IStock> {
@@ -20,6 +21,7 @@ export class StockTrackingService {
         map(
           (s) =>
             <IStock>{
+              symbol: symbol,
               changeToday: s.dp,
               openPrice: s.o,
               currentPrice: s.c,
@@ -39,11 +41,24 @@ export class StockTrackingService {
         map(
           (s) =>
             <IStock>{
+              symbol: symbol,
               name: s.name,
             }
         ),
         catchError(this.handleError<IStock>('stock/profile2'))
       );
+  }
+  getStockProfile2(symbol: string): any {
+    let profile = this.http.get(
+      `https://finnhub.io/api/v1/stock/profile2?symbol=${symbol}&token=${STOCKTOKEN}`
+    );
+    let quote = this.http.get(
+      `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${STOCKTOKEN}`
+    );
+
+    forkJoin([profile, quote]).subscribe((data) => {
+      return data;
+    });
   }
 
   getSentiment(symbol: string) {
