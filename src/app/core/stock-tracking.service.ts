@@ -16,7 +16,8 @@ export class StockTrackingService {
   constructor(private http: HttpClient) {}
 
   getStockQuote(symbol: string): Observable<IStockCompany> {
-    return this.http.get<IStockCompany>(
+    return null;
+    /*return this.http.get<IStockCompany>(
       `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${STOCKTOKEN}`
     ); /*
       .pipe(

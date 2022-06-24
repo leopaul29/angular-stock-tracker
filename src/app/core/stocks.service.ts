@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { IStock } from '../model/stock.model';
 
 @Injectable()
 export class StocksService {
@@ -7,7 +8,7 @@ export class StocksService {
   constructor() {}
 
   addStock(stockSymbol: string) {
-    this.stocksSymbolList.push(stockSymbol);
+    this.stocksSymbolList.push(null);
   }
 
   getStocks() {
