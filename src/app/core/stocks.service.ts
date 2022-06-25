@@ -13,7 +13,9 @@ export class StocksService {
   constructor(
     private stockTraking: StockTrackingService,
     private stocksLocalStorage: StocksLocalStorageService
-  ) {}
+  ) {
+    this.stockList = new Array();
+  }
 
   load() {
     this.stocksLocalStorage.load();
@@ -21,9 +23,11 @@ export class StocksService {
   }
 
   generateStocks(localStorageStockList: Array<string>): void {
-    this.stockList = new Array();
     console.log('localStorageStockList', localStorageStockList);
-    localStorageStockList.map((symbol) => this.addStockBySymbol(symbol));
+    localStorageStockList.map((symbol) => {
+      this.addStockBySymbol(symbol);
+    });
+    //this.stockList.filter((stock) => stock.name);
     /*this.getStockBySymbol('GOOGL');
     /*this.getStockBySymbol('AAPL');
     this.getStockSymbol('META');
@@ -42,18 +46,22 @@ export class StocksService {
     this.stockTraking.getStockProfile(symbol).subscribe(
       (data: IStock) => {
         this.stockList.map((stock, index) => {
-          if (stock.symbol === symbol) {
-            this.stockList[index].name = data.name;
+          //console.log('data', data);
+
+          if (stock.symbol === symbol && data.name) {
+            stock.name = data.name;
+          } else {
+            stock = null;
           }
         });
       },
-      (err: any) => console.log(err),
-      () => {}
+      (err: any) => console.log(err)
     );
+
     this.stockTraking.getStockQuote(symbol).subscribe(
       (data: IStock) => {
         this.stockList.map((stock, index) => {
-          if (stock.symbol === symbol) {
+          if (stock && stock.symbol === symbol) {
             this.stockList[index].changeToday = data.changeToday;
             this.stockList[index].openPrice = data.openPrice;
             this.stockList[index].currentPrice = data.currentPrice;
@@ -63,8 +71,6 @@ export class StocksService {
       },
       (err: any) => console.log(err)
     );
-
-    this.stockList.filter((stock) => stock.symbol === symbol && stock.name);
 
     this.stocksLocalStorage.addStocks(symbol);
     /*console.log('test', this.stockTraking.getStockProfile2(symbol));

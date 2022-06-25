@@ -33,7 +33,21 @@ export class StocksLocalStorageService {
     let storedStocks = localStorage.getItem(this.key);
 
     if (storedStocks && this.stocksSymbol) {
-      this.stocksSymbol = new Set(JSON.parse(storedStocks));
+      try {
+        this.stocksSymbol = new Set(
+          JSON.parse(storedStocks).filter((stock: string) => stock)
+        );
+      } catch (err) {
+        alert(
+          'An error has been detected while decoding the stocklist in local memory.\nThe stocklist has been cleared'
+        );
+        console.error(
+          'Cannot restor stock data. The stocklist has been cleared',
+          err
+        );
+        this.clearStocksSymbol();
+        this.clearLocalStorage();
+      }
     }
   }
 
