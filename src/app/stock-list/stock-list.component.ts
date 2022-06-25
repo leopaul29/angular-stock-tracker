@@ -23,20 +23,10 @@ export class StockListComponent implements OnInit {
 
   constructor(private stocksService: StocksService) {}
 
-  ngOnInit() {
-    /*this.sub = this.stocksService
-      .getStocks()
-      .subscribe((stockList) => (this.stockList = stockList));
-    this.stocklistjson = JSON.stringify(this.stockList);
-
-    //this.visibleStockList = this.stockList.filter((stock) => stock !== null);
-    console.log('this.stockList', this.stockList);*/
-  }
+  ngOnInit() {}
 
   clearAll() {
-    console.log('list clearAll');
     this.stocksService.clearAll();
-    //this.visibleStockList = this.stockList.filter((stock) => stock !== null);
     this.stocklistjson = JSON.stringify(this.stocksService.getStocks());
   }
 }

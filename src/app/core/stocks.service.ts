@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, EMPTY } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { IStock } from '../models/stock.model';
 import { StockTrackingService } from './stock-tracking.service';
@@ -84,14 +84,9 @@ export class StocksService {
     );*/
   }
 
-  resetStocksSymbol() {
+  clearAll() {
     this.stocksLocalStorage.clearStocksSymbol();
     this.stocksLocalStorage.clearLocalStorage();
-    this.stockList = [];
-    this.stockList$ = new Observable();
-  }
-
-  clearAll() {
-    this.resetStocksSymbol();
+    this.stockList.length = 0;
   }
 }

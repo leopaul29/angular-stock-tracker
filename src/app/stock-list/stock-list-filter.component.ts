@@ -16,6 +16,5 @@ export class StockListFilterComponent implements OnInit {
 
   clearAll() {
     console.log('filter clearAll');
-    this.stocksService.resetStocksSymbol();
   }
 }

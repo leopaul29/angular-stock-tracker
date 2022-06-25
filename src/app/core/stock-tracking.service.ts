@@ -10,6 +10,7 @@ const STOCKTOKEN = 'bu4f8kn48v6uehqi3cqg';
 @Injectable()
 export class StockTrackingService {
   url: string = 'https://finnhub.io/api/v1';
+
   constructor(private http: HttpClient) {}
 
   getStockQuote(symbol: string): Observable<IStock> {
