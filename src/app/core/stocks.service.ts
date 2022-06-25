@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, EMPTY } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { IStock } from '../models/stock.model';
 import { StocksLocalStorageService } from './stocks-localStorage.service';
 import { StocksTrackingService } from './stocks-tracking.service';
