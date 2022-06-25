@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { IStock } from '../models/stock.model';
 import { StockTrackingService } from './stock-tracking.service';
 import { StocksLocalStorageService } from './stocks-localStorage.service';
@@ -10,11 +12,14 @@ import { StocksLocalStorageService } from './stocks-localStorage.service';
 export class StocksService {
   stockList: IStock[];
 
+  stockList$: Observable<IStock[]>;
+
   constructor(
     private stockTraking: StockTrackingService,
     private stocksLocalStorage: StocksLocalStorageService
   ) {
     this.stockList = new Array();
+    this.stockList$ = of(this.stockList).pipe(tap((data) => console.log(data)));
   }
 
   load() {
@@ -24,9 +29,11 @@ export class StocksService {
 
   generateStocks(localStorageStockList: Array<string>): void {
     console.log('localStorageStockList', localStorageStockList);
-    localStorageStockList.map((symbol) => {
-      this.addStockBySymbol(symbol);
-    });
+    if (localStorageStockList) {
+      localStorageStockList.map((symbol) => {
+        this.addStockBySymbol(symbol);
+      });
+    }
     //this.stockList.filter((stock) => stock.name);
     /*this.getStockBySymbol('GOOGL');
     /*this.getStockBySymbol('AAPL');
@@ -35,8 +42,8 @@ export class StocksService {
     this.getStockSymbol('TSLA');*/
   }
 
-  getStocks(): IStock[] {
-    return this.stockList;
+  getStocks(): Observable<IStock[]> {
+    return of(this.stockList);
   }
 
   addStockBySymbol(symbol: string): void {
@@ -46,12 +53,9 @@ export class StocksService {
     this.stockTraking.getStockProfile(symbol).subscribe(
       (data: IStock) => {
         this.stockList.map((stock, index) => {
-          //console.log('data', data);
-
-          if (stock.symbol === symbol && data.name) {
+          console.log('data', data);
+          if (stock && stock.symbol === symbol) {
             stock.name = data.name;
-          } else {
-            stock = null;
           }
         });
       },
@@ -78,5 +82,16 @@ export class StocksService {
       (data: IStock) => this.stockList.push(data),
       (err: any) => console.log(err)
     );*/
+  }
+
+  resetStocksSymbol() {
+    this.stocksLocalStorage.clearStocksSymbol();
+    this.stocksLocalStorage.clearLocalStorage();
+    this.stockList = [];
+    this.stockList$ = new Observable();
+  }
+
+  clearAll() {
+    this.resetStocksSymbol();
   }
 }

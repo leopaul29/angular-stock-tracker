@@ -10,6 +10,7 @@ import { StocksService } from './core/stocks.service';
 import { StockListComponent } from './stock-list/stock-list.component';
 import { StockThumbnailComponent } from './stock-list/stock-thumbnail.component';
 import { StocksLocalStorageService } from './core/stocks-localStorage.service';
+import { StockListFilterComponent } from './stock-list/stock-list-filter.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { StocksLocalStorageService } from './core/stocks-localStorage.service';
     StockFormComponent,
     StockListComponent,
     StockThumbnailComponent,
+    StockListFilterComponent,
   ],
   imports: [BrowserModule, FormsModule, HttpClientModule, FormsModule],
   providers: [StockTrackingService, StocksService, StocksLocalStorageService],

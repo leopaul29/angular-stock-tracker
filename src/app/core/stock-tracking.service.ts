@@ -9,14 +9,12 @@ const STOCKTOKEN = 'bu4f8kn48v6uehqi3cqg';
 
 @Injectable()
 export class StockTrackingService {
-  // https://finnhub.io/api/v1/country?token=
+  url: string = 'https://finnhub.io/api/v1';
   constructor(private http: HttpClient) {}
 
   getStockQuote(symbol: string): Observable<IStock> {
     return this.http
-      .get<IQuote>(
-        `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${STOCKTOKEN}`
-      )
+      .get<IQuote>(`${this.url}/quote?symbol=${symbol}&token=${STOCKTOKEN}`)
       .pipe(
         map(
           (s) =>
@@ -35,7 +33,7 @@ export class StockTrackingService {
   getStockProfile(symbol: string): Observable<IStock> {
     return this.http
       .get<IProfile>(
-        `https://finnhub.io/api/v1/stock/profile2?symbol=${symbol}&token=${STOCKTOKEN}`
+        `${this.url}/stock/profile2?symbol=${symbol}&token=${STOCKTOKEN}`
       )
       .pipe(
         map(
@@ -50,10 +48,10 @@ export class StockTrackingService {
   }
   getStockProfile2(symbol: string): any {
     let profile = this.http.get(
-      `https://finnhub.io/api/v1/stock/profile2?symbol=${symbol}&token=${STOCKTOKEN}`
+      `${this.url}/stock/profile2?symbol=${symbol}&token=${STOCKTOKEN}`
     );
     let quote = this.http.get(
-      `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${STOCKTOKEN}`
+      `${this.url}/quote?symbol=${symbol}&token=${STOCKTOKEN}`
     );
 
     forkJoin([profile, quote]).subscribe((data) => {
@@ -64,7 +62,7 @@ export class StockTrackingService {
   getSentiment(symbol: string) {
     // https://finnhub.io/api/v1/stock/insider-sentiment?symbol=TSLA&from=2022-04-01&to=2022-06-01&token=bu4f8kn48v6uehqi3cqg
     return this.http.get<ISentiment>(
-      `https://finnhub.io/api/v1/stock/insider-sentiment?symbol=${symbol}&token=${STOCKTOKEN}`
+      `${this.url}/stock/insider-sentiment?symbol=${symbol}&token=${STOCKTOKEN}`
     );
   }
 
