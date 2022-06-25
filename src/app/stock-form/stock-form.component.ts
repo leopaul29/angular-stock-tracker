@@ -21,8 +21,8 @@ export class StockFormComponent implements OnInit {
   ngOnInit() {}
 
   addStock(formValues: IStockForm): void {
-    console.log('form addStock', formValues);
     if (formValues && formValues.stockSymbol) {
+      console.log('form addStock', formValues);
       this.stocksService.addStockBySymbol(formValues.stockSymbol);
       this.stocklist = JSON.stringify(
         this.stockslocalStorage.getStocklistArray()

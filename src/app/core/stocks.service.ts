@@ -4,6 +4,7 @@ import { tap } from 'rxjs/operators';
 import { IStock } from '../models/stock.model';
 import { StockTrackingService } from './stock-tracking.service';
 import { StocksLocalStorageService } from './stocks-localStorage.service';
+import { StocksTrackingService } from './stocks-tracking.service';
 
 @Injectable({
   // singleton
@@ -16,10 +17,11 @@ export class StocksService {
 
   constructor(
     private stockTraking: StockTrackingService,
+    private stocksTraking: StocksTrackingService,
     private stocksLocalStorage: StocksLocalStorageService
   ) {
     this.stockList = new Array();
-    this.stockList$ = of(this.stockList).pipe(tap((data) => console.log(data)));
+    this.stockList$ = of(this.stockList); //.pipe(tap((data) => console.log(data)));
   }
 
   load() {
@@ -48,9 +50,14 @@ export class StocksService {
 
   addStockBySymbol(symbol: string): void {
     let newStock = <IStock>{ symbol: symbol };
-    this.stockList.push(newStock);
+    this.stocksTraking.stock$.subscribe((data: IStock) => {
+      console.log('addstock', data);
+      this.stockList.push(data);
+    });
+    /*    this.stockList.push(newStock);
 
-    this.stockTraking.getStockProfile(symbol).subscribe(
+    //this.stockTraking.getStockProfile(symbol).subscribe(
+    this.stockTraking.stockProfile$.subscribe(
       (data: IStock) => {
         this.stockList.map((stock, index) => {
           console.log('data', data);
@@ -62,7 +69,8 @@ export class StocksService {
       (err: any) => console.log(err)
     );
 
-    this.stockTraking.getStockQuote(symbol).subscribe(
+    //this.stockTraking.getStockQuote(symbol).subscribe(
+    this.stockTraking.stockQuote$.subscribe(
       (data: IStock) => {
         this.stockList.map((stock, index) => {
           if (stock && stock.symbol === symbol) {

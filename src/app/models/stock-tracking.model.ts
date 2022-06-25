@@ -6,6 +6,7 @@ export interface IQuote {
 }
 
 export interface IProfile {
+  ticker: string;
   name: string;
 }
 

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { forkJoin, Observable, of } from 'rxjs';
+import { forkJoin, Observable, of, Subject } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { IProfile, IQuote, ISentiment } from '../models/stock-tracking.model';
 import { IStock } from '../models/stock.model';
@@ -9,13 +9,15 @@ const STOCKTOKEN = 'bu4f8kn48v6uehqi3cqg';
 
 @Injectable()
 export class StockTrackingService {
-  url: string = 'https://finnhub.io/api/v1';
+  private stocksUrl: string = 'https://finnhub.io/api/v1';
 
   constructor(private http: HttpClient) {}
 
   getStockQuote(symbol: string): Observable<IStock> {
     return this.http
-      .get<IQuote>(`${this.url}/quote?symbol=${symbol}&token=${STOCKTOKEN}`)
+      .get<IQuote>(
+        `${this.stocksUrl}/quote?symbol=${symbol}&token=${STOCKTOKEN}`
+      )
       .pipe(
         map(
           (s) =>
@@ -34,7 +36,7 @@ export class StockTrackingService {
   getStockProfile(symbol: string): Observable<IStock> {
     return this.http
       .get<IProfile>(
-        `${this.url}/stock/profile2?symbol=${symbol}&token=${STOCKTOKEN}`
+        `${this.stocksUrl}/stock/profile2?symbol=${symbol}&token=${STOCKTOKEN}`
       )
       .pipe(
         map(
@@ -49,10 +51,10 @@ export class StockTrackingService {
   }
   getStockProfile2(symbol: string): any {
     let profile = this.http.get(
-      `${this.url}/stock/profile2?symbol=${symbol}&token=${STOCKTOKEN}`
+      `${this.stocksUrl}/stock/profile2?symbol=${symbol}&token=${STOCKTOKEN}`
     );
     let quote = this.http.get(
-      `${this.url}/quote?symbol=${symbol}&token=${STOCKTOKEN}`
+      `${this.stocksUrl}/quote?symbol=${symbol}&token=${STOCKTOKEN}`
     );
 
     forkJoin([profile, quote]).subscribe((data) => {
@@ -63,7 +65,7 @@ export class StockTrackingService {
   getSentiment(symbol: string) {
     // https://finnhub.io/api/v1/stock/insider-sentiment?symbol=TSLA&from=2022-04-01&to=2022-06-01&token=bu4f8kn48v6uehqi3cqg
     return this.http.get<ISentiment>(
-      `${this.url}/stock/insider-sentiment?symbol=${symbol}&token=${STOCKTOKEN}`
+      `${this.stocksUrl}/stock/insider-sentiment?symbol=${symbol}&token=${STOCKTOKEN}`
     );
   }
 
