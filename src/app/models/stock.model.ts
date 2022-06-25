@@ -5,6 +5,10 @@ export interface IStock {
   openPrice: number;
   currentPrice: number;
   highPrice: number;
+  country: string;
+  logo: string;
+  weburl: string;
+  marketCapitalization: number;
 }
 
 export interface IStockForm {

@@ -4,8 +4,11 @@ import { IStock } from '../models/stock.model';
 @Component({
   selector: 'app-stock-thumbnail',
   template: `<div>
-  <h3>{{stock.name}}</h3>
-  {{stock | json}}
+  <h3>
+    <img src={{stock.logo}} alt={{stock.name}} width="50"/>
+    {{stock.name | uppercase}}
+  </h3>
+  {{stock | json}}  
   <ul>
     <li>Change today: {{stock.changeToday}}%</li>
     <li>Open price: {{stock.openPrice | currency: 'USD'}}</li>
