@@ -7,10 +7,10 @@ import { IStock } from '../models/stock.model';
   <h3>{{stock.name}}</h3>
   {{stock | json}}
   <ul>
-    <li>{{stock.changeToday}}</li>
-    <li>{{stock.openPrice}}</li>
-    <li>{{stock.currentPrice}}</li>
-    <li>{{stock.highPrice}}</li>
+    <li>Change today: {{stock.changeToday}}%</li>
+    <li>Open price: {{stock.openPrice | currency: 'USD'}}</li>
+    <li>Current price: {{stock.currentPrice | currency: 'USD'}}</li>
+    <li>High price: {{stock.highPrice | currency: 'USD'}}</li>
   </ul>
   </div>`,
   styles: [],

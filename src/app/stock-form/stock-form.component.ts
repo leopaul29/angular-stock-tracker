@@ -13,7 +13,6 @@ export class StockFormComponent implements OnInit {
   stocklist: string;
   // ADD VALIDATION_ERR
   constructor(
-    private stockTrackingService: StockTrackingService,
     private stocksService: StocksService,
     private stockslocalStorage: StocksLocalStorageService
   ) {}
@@ -24,13 +23,18 @@ export class StockFormComponent implements OnInit {
       .subscribe((data: IStockCompany) =>
         console.log(`subscribed: ${JSON.stringify(data)}`)
       );*/
-    this.stocklist = JSON.stringify(this.stockslocalStorage.getstocklist());
+    this.stocklist = JSON.stringify(
+      this.stockslocalStorage.getStocklistArray()
+    );
   }
 
   addStock(formValues): void {
     console.log('form addStock', formValues);
-    //this.stocksService.addStock(formValues.stockSymbol);
-    this.stockslocalStorage.addStocks(formValues.stockSymbol);
-    this.stocklist = JSON.stringify(this.stockslocalStorage.getstocklist());
+    if (!formValues.stockSymbol) return;
+
+    this.stocksService.addStockBySymbol(formValues.stockSymbol);
+    this.stocklist = JSON.stringify(
+      this.stockslocalStorage.getStocklistArray()
+    );
   }
 }

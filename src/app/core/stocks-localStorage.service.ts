@@ -19,26 +19,33 @@ export class StocksLocalStorageService {
     }
   }
 
-  getstocklist(): string[] {
+  getStocklistArray(): string[] {
     return Array.from(this.stocksSymbol);
   }
 
   store() {
-    const arr = this.getstocklist();
+    const arr = this.getStocklistArray();
     localStorage.setItem(this.key, JSON.stringify(arr));
   }
 
   load(): void {
-    this.clear();
+    this.clearStocksSymbol();
     let storedStocks = localStorage.getItem(this.key);
+
     if (storedStocks && this.stocksSymbol) {
       this.stocksSymbol = new Set(JSON.parse(storedStocks));
     }
   }
 
-  clear(): void {
+  clearStocksSymbol(): void {
     if (this.stocksSymbol) {
       this.stocksSymbol.clear();
+    } else {
+      this.stocksSymbol = new Set<string>();
     }
+  }
+
+  clearLocalStorage(): void {
+    localStorage.removeItem(this.key);
   }
 }
