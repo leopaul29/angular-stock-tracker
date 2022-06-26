@@ -62,6 +62,10 @@ export class StocksService {
     return of(this.stockList);
   }
 
+  getStock(symbol: string): IStock {
+    return this.stockList.find((stock) => stock.symbol == symbol);
+  }
+
   addStockBySymbol(symbol: string): void {
     this.stocksTraking.selectedSymbolChanged(symbol);
     this.stocksTraking.stock$;

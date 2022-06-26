@@ -3,7 +3,7 @@ import { IStock } from '../../models/stock.model';
 
 @Component({
   selector: 'app-stock-thumbnail',
-  template: `<div class="border stock-thumbnail">
+  template: `<div class="border stock-thumbnail" [routerLink]="['/stocks', stock.symbol]">
   <div class="thumbnail-header">
     <img *ngIf="stock.logo" src={{stock.logo}} alt={{stock.name}} width="50"/>
     <h3>{{stock.name | uppercase}}</h3>
@@ -17,8 +17,8 @@ import { IStock } from '../../models/stock.model';
         <li>High price: {{stock.highPrice | currency: 'USD'}}</li>
       </ul>
     </div>
-    <div class="thumbnail-trend">
-      <span *ngIf="stock.changeToday > 0" style="color:green;">⇧</span>
+    <div class="thumbnail-trend" [ngStyle]="getTrendStyle()">
+      <span *ngIf="stock.changeToday > 0" style="color:green; height:100px;">⇧</span>
       <span *ngIf="stock.changeToday == 0 "style="color:brown;">=</span>
       <span *ngIf="stock.changeToday < 0 "style="color:red;">⇩</span>
     </div>
@@ -30,4 +30,7 @@ export class StockThumbnailComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+  getTrendStyle() {
+    return { color: 'green' };
+  }
 }
