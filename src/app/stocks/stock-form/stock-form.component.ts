@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { StocksTrackingService } from '../../core/stocks-tracking.service';
 import { StocksService } from '../../core/stocks.service';
 import { IStock, IStockForm } from '../../models/stock.model';
@@ -8,17 +9,19 @@ import { IStock, IStockForm } from '../../models/stock.model';
   templateUrl: './stock-form.component.html',
   styles: [],
 })
-export class StockFormComponent implements OnInit {
+export class StockFormComponent implements OnInit, OnDestroy {
   // form input
   stockSymbol: string;
   // ADD VALIDATION_ERR
+  stockListSubscription: Subscription;
+
   constructor(
     private stocksService: StocksService,
     private stocksTraking: StocksTrackingService
   ) {}
 
   ngOnInit() {
-    this.stocksTraking.stock$.subscribe(
+    this.stockListSubscription = this.stocksTraking.stock$.subscribe(
       (data: IStock) => {
         console.log('GOT1:', data);
         if (
@@ -31,7 +34,7 @@ export class StockFormComponent implements OnInit {
             );
           })
         ) {
-          this.stocksService.addothercustom(data);
+          this.stocksService.addStock(data);
         }
       },
       (err) => console.log('Error:', err),
@@ -39,11 +42,12 @@ export class StockFormComponent implements OnInit {
     );
   }
 
+  ngOnDestroy(): void {
+    this.stockListSubscription.unsubscribe();
+  }
+
   addStock(formValues: IStockForm): void {
     if (formValues && formValues.stockSymbol) {
-      console.log('form addStock', formValues);
-      this.stocksService.addStockBySymbol(formValues.stockSymbol); // TODO
-      //      this.stocksService.addStockBySymbol();
       this.stocksTraking.selectedSymbolChanged(formValues.stockSymbol);
       this.stocksTraking.stock$;
     }

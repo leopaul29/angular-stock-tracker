@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { IStock } from '../models/stock.model';
 import { StocksCustomLoaderService } from './stocks-customLoader.service';
@@ -15,35 +15,22 @@ export class StocksService {
 
   constructor(
     private stocksCustomLoader: StocksCustomLoaderService,
-    private stocksTraking: StocksTrackingService,
-    private stocksLocalStorage: StocksLocalStorageService
+    private stocksLocalStorage: StocksLocalStorageService,
+    private stocksTraking: StocksTrackingService
   ) {
     this.stockList = new Array();
     this.stockList$ = of(this.stockList);
   }
 
-  addothercustom(data) {
-    this.stockList.push(data);
-    console.log('this.stockList', this.stockList);
-    this.stocksLocalStorage.addStocks(data.symbol);
-  }
-
-  getStocks(): Observable<IStock[]> {
-    return this.stockList$;
+  addStock(stock: IStock): void {
+    this.stockList.push(stock);
+    this.stocksLocalStorage.addStocks(stock.symbol);
   }
 
   getStock(symbol: string): IStock {
     return this.stockList.find((stock) => stock.symbol === symbol);
   }
 
-  addStockBySymbol(symbol: string): void {
-    this.stocksTraking.selectedSymbolChanged(symbol);
-    this.stocksTraking.stock$;
-  }
-
-  displaystocklist() {
-    console.log('this.stockList', JSON.stringify(this.stockList));
-  }
   /**
    * Clear stocks
    */
@@ -55,7 +42,6 @@ export class StocksService {
       (stock) => stock && stock.symbol === symbol
     );
     this.stockList.splice(index, 1);
-    this.displaystocklist();
   }
 
   clearAll(): void {
@@ -67,7 +53,7 @@ export class StocksService {
   /**
    * Load stocks from local storage
    */
-  load() {
+  load(): void {
     this.stocksLocalStorage.load();
     this.generateStocks(this.stocksLocalStorage.getStocklistArray());
   }
