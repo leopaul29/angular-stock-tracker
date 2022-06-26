@@ -4,7 +4,7 @@ import { StocksService } from '../../core/stocks.service';
 @Component({
   selector: 'app-stock-list',
   templateUrl: './stock-list.component.html',
-  styleUrls: ['stock-list.component.ts'],
+  styleUrls: ['stock-list.component.css'],
 })
 export class StockListComponent implements OnInit {
   //visibleStockList: IStock[];
@@ -14,8 +14,4 @@ export class StockListComponent implements OnInit {
   constructor(private stocksService: StocksService) {}
 
   ngOnInit() {}
-
-  clearAll() {
-    this.stocksService.clearAll();
-  }
 }

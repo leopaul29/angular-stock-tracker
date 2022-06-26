@@ -28,3 +28,7 @@
 .thumbnail-data > ul > li {
   margin: 5px;
 }
+.thumbnail-delete {
+  width: 25px;
+  height: 25px;
+}

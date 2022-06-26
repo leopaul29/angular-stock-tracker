@@ -3,7 +3,6 @@ import { Observable, of } from 'rxjs';
 import { IStock } from '../models/stock.model';
 import { StocksCustomLoaderService } from './stocks-customLoader.service';
 import { StocksLocalStorageService } from './stocks-localStorage.service';
-import { StocksTrackingService } from './stocks-tracking.service';
 
 @Injectable({
   // singleton
@@ -12,12 +11,10 @@ import { StocksTrackingService } from './stocks-tracking.service';
 export class StocksService {
   stockList: IStock[];
   stockList$: Observable<IStock[]>;
-  stockSentiment;
 
   constructor(
     private stocksCustomLoader: StocksCustomLoaderService,
-    private stocksLocalStorage: StocksLocalStorageService,
-    private stocksTraking: StocksTrackingService
+    private stocksLocalStorage: StocksLocalStorageService
   ) {
     this.stockList = new Array();
     this.stockList$ = of(this.stockList);
@@ -32,18 +29,18 @@ export class StocksService {
     return this.stockList.find((stock) => stock.symbol === symbol);
   }
 
-  /**
-   * Clear stocks
-   */
-  clear(symbol: string): void {
-    console.log('clear', symbol);
-    this.stocksLocalStorage.clearStockSymbol(symbol);
-    this.stocksLocalStorage.store();
+  remove(symbol: string): void {
+    if (this.stockList.length <= 0) return;
+
+    this.stocksLocalStorage.removeStockSymbol(symbol);
     const index = this.stockList.findIndex(
       (stock) => stock && stock.symbol === symbol
     );
     this.stockList.splice(index, 1);
   }
+  /**
+   * Clear stocks
+   */
 
   clearAll(): void {
     this.stocksLocalStorage.clearAllStocksSymbol();

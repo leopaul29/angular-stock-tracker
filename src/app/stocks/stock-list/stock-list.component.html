@@ -1,7 +1,9 @@
 <app-stock-list-filter></app-stock-list-filter>
-<b>filter here</b>
-<button (click)="clearAll()">Clear All</button>
 <div *ngIf="stockList$ | async as stockList">
+  <div *ngIf="!stockList"><app-loading></app-loading></div>
+  <div *ngIf="stockList.length == 0" class="list-empty">
+    No stocks in the list
+  </div>
   <div *ngFor="let stock of stockList">
     <app-stock-thumbnail [stock]="stock"></app-stock-thumbnail>
   </div>

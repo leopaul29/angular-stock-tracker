@@ -7,7 +7,7 @@ import { IStock, IStockForm } from '../../models/stock.model';
 @Component({
   selector: 'app-stock-form',
   templateUrl: './stock-form.component.html',
-  styles: [],
+  styles: ['./stock-form.component.css'],
 })
 export class StockFormComponent implements OnInit, OnDestroy {
   // form input

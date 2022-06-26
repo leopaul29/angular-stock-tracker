@@ -15,6 +15,6 @@ export class StockThumbnailComponent implements OnInit {
   ngOnInit() {}
 
   clear() {
-    this.stocksService.clear(this.stock.symbol);
+    this.stocksService.remove(this.stock.symbol);
   }
 }

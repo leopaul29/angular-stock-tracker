@@ -12,6 +12,10 @@ export class StocksLocalStorageService {
     this.stocksSymbol = new Set<string>();
   }
 
+  getStocklistArray(): string[] {
+    return Array.from(this.stocksSymbol);
+  }
+
   addStocks(stockSymbol: string): void {
     if (this.stocksSymbol) {
       this.stocksSymbol.add(stockSymbol);
@@ -19,10 +23,16 @@ export class StocksLocalStorageService {
     }
   }
 
-  getStocklistArray(): string[] {
-    return Array.from(this.stocksSymbol);
+  removeStockSymbol(symbol: string): void {
+    if (this.stocksSymbol) {
+      this.stocksSymbol.delete(symbol);
+    }
+    this.store();
   }
 
+  /**
+   * LocalStorage store and load methods
+   */
   store() {
     const arr = this.getStocklistArray();
     localStorage.setItem(this.key, JSON.stringify(arr));
@@ -52,12 +62,9 @@ export class StocksLocalStorageService {
     }
   }
 
-  clearStockSymbol(symbol: string): void {
-    if (this.stocksSymbol) {
-      this.stocksSymbol.delete(symbol);
-    }
-  }
-
+  /**
+   * Clear
+   */
   clearAllStocksSymbol(): void {
     if (this.stocksSymbol) {
       this.stocksSymbol.clear();
