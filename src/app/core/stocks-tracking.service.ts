@@ -50,10 +50,10 @@ export class StocksTrackingService {
         logo: profile.logo,
         weburl: profile.weburl,
         marketCapitalization: profile.marketCapitalization,
-        changeToday: quote.dp,
-        openPrice: quote.o,
-        currentPrice: quote.c,
-        highPrice: quote.h,
+        changeToday: +quote.dp.toFixed(2),
+        openPrice: +quote.o.toFixed(2),
+        currentPrice: +quote.c.toFixed(2),
+        highPrice: +quote.h.toFixed(2),
       } as IStock;
     }),
     //tap((data) => console.log('stock', JSON.stringify(data))),
@@ -65,10 +65,6 @@ export class StocksTrackingService {
       threeMonthBefore.setMonth(threeMonthBefore.getMonth() - 2);
       const from = threeMonthBefore.toISOString().substring(0, 10);
       const to = new Date().toISOString().substring(0, 10);
-      console.log(
-        'url!',
-        `${this.stocksUrl}/stock/insider-sentiment?symbol=${symbol}&from=${from}&to=${to}`
-      );
       return this.http
         .get<IInsiderSentiment>(
           `${this.stocksUrl}/stock/insider-sentiment?symbol=${symbol}&from=${from}&to=${to}`
@@ -82,12 +78,20 @@ export class StocksTrackingService {
 
   stockSentiment$ = zip(this.stockProfile$, this.stockInsiderSentiment$).pipe(
     map(([profile, sentiment]) => {
-      return {
+      let stockSentiment = {
         symbol: profile.ticker,
         name: profile.name,
         logo: profile.logo,
         monthlySentiment: sentiment.data,
       } as ISentiment;
+
+      let monthlySentiment = stockSentiment.monthlySentiment.map((monthly) => {
+        return { ...monthly, mspr: +monthly.mspr.toFixed(2) };
+      });
+
+      stockSentiment.monthlySentiment = monthlySentiment;
+
+      return stockSentiment;
     }),
     //tap((data) => console.log('stock', JSON.stringify(data))),
     catchError(this.handleError<ISentiment>('zipStockSentiment'))

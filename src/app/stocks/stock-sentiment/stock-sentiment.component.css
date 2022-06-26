@@ -1,0 +1,27 @@
+.stock-sentiment {
+  display: flex;
+  flex-direction: column;
+}
+.sentiment-header,
+.sentiment-body, .sentiment-monthly {
+  display: flex;
+  flex-direction: row;
+}
+.sentiment-header {
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid;
+}
+.sentiment-body {
+  justify-content: space-around;
+  padding-top: 15px;
+}/*
+.sentiment-data > ul > li {
+  margin: 5px;
+}
+.sentiment-trend > span {
+  font-size: 48px;
+  font-weight: bold;
+}*/

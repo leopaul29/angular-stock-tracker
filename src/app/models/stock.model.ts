@@ -1,5 +1,3 @@
-import { IMonthlySentiment } from './stock-tracking.model';
-
 export interface IStock {
   symbol: string;
   name: string;

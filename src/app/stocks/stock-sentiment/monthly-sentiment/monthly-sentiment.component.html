@@ -1,4 +1,5 @@
-{{ monthlySentiment | json }}
 <ul>
-  <li></li>
+  <li>{{monthlySentiment.month | date:'MMMM' | uppercase}}</li>
+  <li>Change: {{monthlySentiment.change}}</li>
+  <li>MSPR: {{monthlySentiment.mspr}}</li>
 </ul>

@@ -1,18 +1,19 @@
 <div *ngIf="sentiment" class="border">
-  <div class="thumbnail-header">
-    <div class="thumbnail-title">
-      <img
-        *ngIf="sentiment.logo"
-        src="{{ sentiment.logo }}"
-        alt="{{ sentiment.name }}"
-        width="50"
-      />
-      <h3>{{ sentiment.name | uppercase }}</h3>
-    </div>
+  <div class="sentiment-header">
+    <img
+      *ngIf="sentiment.logo"
+      src="{{ sentiment.logo }}"
+      alt="{{ sentiment.name }}"
+      width="50"
+    />
+    <h3>{{ sentiment.name | uppercase }}</h3>
   </div>
-  <div class="thumbnail-body">
+  <div class="sentiment-body">
     <div *ngIf="sentiment.monthlySentiment">
-      <div *ngFor="let monthlySentiment of sentiment.monthlySentiment">
+      <div
+        *ngFor="let monthlySentiment of sentiment.monthlySentiment"
+        class="sentiment-monthly"
+      >
         <app-monthly-sentiment
           [monthlySentiment]="monthlySentiment"
         ></app-monthly-sentiment>

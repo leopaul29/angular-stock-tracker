@@ -7,9 +7,9 @@ import { ISentiment } from '../../models/stock.model';
  * displays the sentiment information for the last 3 months
  */
 @Component({
-  selector: 'app-stock-details',
+  selector: 'app-stock-sentiment',
   templateUrl: 'stock-sentiment.component.html',
-  styles: [],
+  styleUrls: ['stock-sentiment.component.css'],
 })
 export class StockSentimentComponent implements OnInit {
   sentiment: ISentiment;

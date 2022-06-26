@@ -21,7 +21,6 @@ export class StocksService {
   ) {
     this.stockList = new Array();
     this.stockList$ = of(this.stockList);
-
   }
 
   addStock(stock: IStock): void {

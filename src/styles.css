@@ -5,6 +5,9 @@
   color: black;
   font-size: 16px;
 }
+a {
+  text-decoration: none;
+}
 a:active {
   color: black;
 }
