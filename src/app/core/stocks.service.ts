@@ -18,7 +18,7 @@ export class StocksService {
     private stocksLocalStorage: StocksLocalStorageService
   ) {
     this.stockList = new Array();
-    this.stockList$ = of(this.stockList); //.pipe(tap((data) => console.log(data)));
+    this.stockList$ = of(this.stockList);
 
     /* this.stocksTraking.stock$.subscribe(
       (data: IStock) => {
@@ -29,7 +29,11 @@ export class StocksService {
 
     this.stocksTraking.b$.subscribe(
       (data: IStock) => {
-        console.log('GOT1:', data), this.stockList.push(data);
+        console.log('GOT1:', data);
+        if (data) {
+          this.stockList.push(data);
+          this.stocksLocalStorage.addStocks(data.symbol);
+        }
       },
       (err) => console.log('Error:', err),
       () => console.log('Completed')
@@ -60,7 +64,6 @@ export class StocksService {
     //this.stocksTraking.stock$;
     //this.stocksTraking.a$;
     this.stocksTraking.b$;
-    this.stocksLocalStorage.addStocks(symbol);
   }
 
   clearAll() {
@@ -68,7 +71,7 @@ export class StocksService {
     this.stocksLocalStorage.clearLocalStorage();
     this.stockList.length = 0;
   }
-} /*console.log('test', this.stockTraking.getStockProfile2(symbol));
+}
 /*    this.stockList.push(newStock);
 
     //this.stockTraking.getStockProfile(symbol).subscribe(
@@ -99,8 +102,6 @@ export class StocksService {
       (err: any) => console.log(err)
     );
 
-    */
-/*
     this.stockTraking.getStockProfile2(symbol).subscribe(
       (data: IStock) => this.stockList.push(data),
       (err: any) => console.log(err)

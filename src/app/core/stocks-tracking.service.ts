@@ -1,22 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  combineLatest,
-  concat,
-  forkJoin,
-  Observable,
-  of,
-  Subject,
-  zip,
-} from 'rxjs';
-import {
-  catchError,
-  map,
-  merge,
-  mergeAll,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { Observable, of, Subject, zip } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { IProfile, IQuote } from '../models/stock-tracking.model';
 import { IStock } from '../models/stock.model';
 
@@ -28,39 +13,12 @@ export class StocksTrackingService {
   private symbolSubject = new Subject<string>();
   symbolSelectedAction$ = this.symbolSubject.asObservable();
 
-  constructor(private http: HttpClient) {
-    /*this.stockQuote$.subscribe(
-      (x) => console.log('GOT:', x),
-      (err) => console.log('Error:', err),
-      () => console.log('Completed')
-    );
-
-    this.stockProfile$.subscribe(
-      (x) => console.log('GOT:', x),
-      (err) => console.log('Error:', err),
-      () => console.log('Completed')
-    );*/
-  }
+  constructor(private http: HttpClient) {}
 
   selectedSymbolChanged(symbol: string): void {
     this.symbolSubject.next(symbol);
   }
-
   stockQuote$ = this.symbolSelectedAction$.pipe(
-    switchMap((symbol) =>
-      this.http.get<IQuote>(
-        `${this.stocksUrl}/quote?symbol=${symbol}&token=${STOCKTOKEN}`
-      )
-    )
-  );
-  stockProfile$ = this.symbolSelectedAction$.pipe(
-    switchMap((symbol) =>
-      this.http.get<IProfile>(
-        `${this.stocksUrl}/stock/profile2?symbol=${symbol}&token=${STOCKTOKEN}`
-      )
-    )
-  );
-  /*stockQuote$ = this.symbolSelectedAction$.pipe(
     switchMap((symbol) =>
       this.http
         .get<IQuote>(
@@ -83,7 +41,7 @@ export class StocksTrackingService {
           catchError(this.handleError<IProfile>('stock/profile2'))
         )
     )
-  );*/
+  );
   /*stock$ = combineLatest([this.stockQuote$, this.stockProfile$]).pipe(
     map(([quote, profile]) => {
       if (!profile?.name) return;
@@ -123,16 +81,10 @@ export class StocksTrackingService {
       } as IStock;
     }),
     tap((data) => console.log('stock', JSON.stringify(data))),
-    catchError(this.handleError<IStock>('combineStock'))
-  ); /*.subscribe(
-    (data) => {
-      console.log('GOT2:', data);
-    },
-    (err) => console.log('Error:', err),
-    () => console.log('Completed')
+    catchError(this.handleError<IStock>('zipStock'))
   );
 
-  a$ = forkJoin({
+  /*a$ = forkJoin({
     quote: this.stockQuote$,
     profile: this.stockProfile$,
   }).pipe(
@@ -165,24 +117,3 @@ export class StocksTrackingService {
     };
   }
 }
-/*
-stockQuote$ = this.http
-  .get<IQuote>(
-    `${this.stocksUrl}/quote?symbol=${this.symbol}&token=${STOCKTOKEN}`
-  )
-  .pipe(
-    //tap((data) => console.log('quote', JSON.stringify(data))),
-    catchError(this.handleError<IQuote>('quote'))
-  );
-*/
-
-/*
-  stockProfile$ = this.http
-    .get<IProfile>(
-      `${this.stocksUrl}/stock/profile2?symbol=${this.symbol}&token=${STOCKTOKEN}`
-    )
-    .pipe(
-      //tap((data) => console.log('profile', JSON.stringify(data))),
-      catchError(this.handleError<IProfile>('stock/profile2'))
-    );
-*/

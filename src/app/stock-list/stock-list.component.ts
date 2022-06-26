@@ -23,10 +23,11 @@ export class StockListComponent implements OnInit {
 
   constructor(private stocksService: StocksService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.stocklistjson = JSON.stringify(this.stocksService.getStocks());
+  }
 
   clearAll() {
     this.stocksService.clearAll();
-    this.stocklistjson = JSON.stringify(this.stocksService.getStocks());
   }
 }
