@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { StockTrackingService } from './core/stock-tracking.service';
 import { StocksService } from './core/stocks.service';
 import { StocksLocalStorageService } from './core/stocks-localStorage.service';
 import { StocksTrackingService } from './core/stocks-tracking.service';
@@ -17,6 +16,7 @@ import { RouterModule } from '@angular/router';
 import { appRoutes } from './routes';
 import { StockComponent } from './stocks/stocks.component';
 import { StockSentimentComponent } from './stocks/stock-sentiment/stock-sentiment.component';
+import { StocksCustomLoaderService } from './core/stocks-customLoader.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +35,7 @@ import { StockSentimentComponent } from './stocks/stock-sentiment/stock-sentimen
     RouterModule.forRoot(appRoutes),
   ],
   providers: [
-    StockTrackingService,
+    StocksCustomLoaderService,
     StocksTrackingService,
     StocksService,
     StocksLocalStorageService,

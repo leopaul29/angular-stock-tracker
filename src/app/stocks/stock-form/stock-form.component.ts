@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { StocksLocalStorageService } from '../../core/stocks-localStorage.service';
 import { StocksTrackingService } from '../../core/stocks-tracking.service';
 import { StocksService } from '../../core/stocks.service';
 import { IStock, IStockForm } from '../../models/stock.model';
@@ -43,7 +42,10 @@ export class StockFormComponent implements OnInit {
   addStock(formValues: IStockForm): void {
     if (formValues && formValues.stockSymbol) {
       console.log('form addStock', formValues);
-      this.stocksService.addStockBySymbol(formValues.stockSymbol);
+      this.stocksService.addStockBySymbol(formValues.stockSymbol); // TODO
+      //      this.stocksService.addStockBySymbol();
+      this.stocksTraking.selectedSymbolChanged(formValues.stockSymbol);
+      this.stocksTraking.stock$;
     }
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { IStock } from '../models/stock.model';
-import { StockTrackingService } from './stock-tracking.service';
+import { StocksCustomLoaderService } from './stocks-customLoader.service';
 import { StocksLocalStorageService } from './stocks-localStorage.service';
 import { StocksTrackingService } from './stocks-tracking.service';
 
@@ -11,11 +11,10 @@ import { StocksTrackingService } from './stocks-tracking.service';
 })
 export class StocksService {
   stockList: IStock[];
-
   stockList$: Observable<IStock[]>;
 
   constructor(
-    private stockTraking: StockTrackingService,
+    private stocksCustomLoader: StocksCustomLoaderService,
     private stocksTraking: StocksTrackingService,
     private stocksLocalStorage: StocksLocalStorageService
   ) {
@@ -23,19 +22,6 @@ export class StocksService {
     this.stockList$ = of(this.stockList);
   }
 
-  load() {
-    this.stocksLocalStorage.load();
-    this.generateStocks(this.stocksLocalStorage.getStocklistArray());
-  }
-
-  generateStocks(localStorageStockList: Array<string>): void {
-    console.log('localStorageStockList', localStorageStockList);
-    if (localStorageStockList) {
-      localStorageStockList.map((symbol) => {
-        this.addCustomeStock(symbol);
-      });
-    }
-  }
   addothercustom(data) {
     this.stockList.push(data);
     console.log('this.stockList', this.stockList);
@@ -55,20 +41,21 @@ export class StocksService {
     this.stocksTraking.stock$;
   }
 
+  displaystocklist() {
+    console.log('this.stockList', JSON.stringify(this.stockList));
+  }
+  /**
+   * Clear stocks
+   */
   clear(symbol: string): void {
     console.log('clear', symbol);
     this.stocksLocalStorage.clearStockSymbol(symbol);
     this.stocksLocalStorage.store();
-    //this.stockList.find((stock) => stock.symbol !== symbol);
     const index = this.stockList.findIndex(
       (stock) => stock && stock.symbol === symbol
     );
     this.stockList.splice(index, 1);
     this.displaystocklist();
-  }
-
-  displaystocklist() {
-    console.log('this.stockList', JSON.stringify(this.stockList));
   }
 
   clearAll(): void {
@@ -77,10 +64,27 @@ export class StocksService {
     this.stockList.length = 0;
   }
 
+  /**
+   * Load stocks from local storage
+   */
+  load() {
+    this.stocksLocalStorage.load();
+    this.generateStocks(this.stocksLocalStorage.getStocklistArray());
+  }
+
+  generateStocks(localStorageStockList: Array<string>): void {
+    console.log('localStorageStockList', localStorageStockList);
+    if (localStorageStockList) {
+      localStorageStockList.map((symbol) => {
+        this.addCustomeStock(symbol);
+      });
+    }
+  }
+
   addCustomeStock(symbol: string): void {
     this.stockList.push({ symbol: symbol } as IStock);
 
-    this.stockTraking.getStockProfile(symbol).subscribe(
+    this.stocksCustomLoader.getStockProfile(symbol).subscribe(
       (data: IStock) => {
         const index = this.stockList.findIndex(
           (stock) => stock && stock.symbol === symbol && data.name
@@ -93,18 +97,11 @@ export class StocksService {
           name: data.name,
           logo: data.logo,
         };
-        /*this.stockList.map((stock) => {
-          if (stock && stock.symbol === symbol && data.name) {
-            console.log('data profile', data);
-            stock.name = data.name;
-            stock.logo = data.logo;
-          }
-        });*/
       },
       (err: any) => console.log(err)
     );
 
-    this.stockTraking.getStockQuote(symbol).subscribe(
+    this.stocksCustomLoader.getStockQuote(symbol).subscribe(
       (data: IStock) => {
         const index = this.stockList.findIndex(
           (stock) => stock && stock.symbol === symbol
@@ -119,26 +116,8 @@ export class StocksService {
           currentPrice: +data.currentPrice.toFixed(2),
           highPrice: +data.highPrice.toFixed(2),
         };
-        /*this.stockList.map((stock, index) => {
-          if (
-            stock &&
-            stock.symbol === symbol &&
-            data.currentPrice.toFixed(2) != '0'
-          ) {
-            console.log('data quote', data.currentPrice.toFixed(2));
-            this.stockList[index].changeToday = +data.changeToday.toFixed(2);
-            this.stockList[index].openPrice = +data.openPrice.toFixed(2);
-            this.stockList[index].currentPrice = +data.currentPrice.toFixed(2);
-            this.stockList[index].highPrice = +data.highPrice.toFixed(2);
-          }
-        });*/
       },
       (err: any) => console.log(err)
     );
-
-    /*this.stockTraking.getStockProfile2(symbol).subscribe(
-      (data: IStock) => this.stockList.push(data),
-      (err: any) => console.log(err)
-    );*/
   }
 }

@@ -15,8 +15,12 @@
   border-bottom: 1px solid;
 }
 .thumbnail-title {
-  align-items: flex-end;
+  align-items: center;
   gap: 20px;
+}
+.thumbnail-title:hover,
+.thumbnail-delete:hover {
+  cursor: pointer;
 }
 .thumbnail-body {
   justify-content: space-around;
@@ -25,9 +29,7 @@
 .thumbnail-data > ul > li {
   margin: 5px;
 }
-.thumbnail-trend {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.thumbnail-trend > span {
   font-size: 48px;
+  font-weight: bold;
 }

@@ -9,7 +9,7 @@
       />
       <h3>{{ stock.name | uppercase }}</h3>
     </div>
-    <span (click)="clear()">X</span>
+    <span class="thumbnail-delete" (click)="clear()">X</span>
   </div>
   <div class="thumbnail-body">
     <div class="thumbnail-data">
@@ -20,10 +20,10 @@
         <li>High price: {{ stock.highPrice | currency: 'USD' }}</li>
       </ul>
     </div>
-    <div class="thumbnail-trend" [ngStyle]="getTrendStyle()">
-      <span *ngIf="stock.changeToday > 0">⇧</span>
-      <span *ngIf="stock.changeToday == 0">=</span>
-      <span *ngIf="stock.changeToday < 0">⇩</span>
+    <div class="thumbnail-trend">
+      <span *ngIf="stock.changeToday > 0" [ngStyle]="{color:'green'}">⇧</span>
+      <span *ngIf="stock.changeToday == 0" [ngStyle]="{color:'brown'}">=</span>
+      <span *ngIf="stock.changeToday < 0" [ngStyle]="{color:'red'}">⇩</span>
     </div>
   </div>
 </div>
