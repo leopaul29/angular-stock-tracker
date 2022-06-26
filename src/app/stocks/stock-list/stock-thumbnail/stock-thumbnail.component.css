@@ -1,0 +1,33 @@
+.stock-thumbnail {
+  display: flex;
+  flex-direction: column;
+}
+
+.thumbnail-header,
+.thumbnail-title,
+.thumbnail-body {
+  display: flex;
+  flex-direction: row;
+}
+.thumbnail-header {
+  justify-content: space-between;
+  padding-bottom: 15px;
+  border-bottom: 1px solid;
+}
+.thumbnail-title {
+  align-items: flex-end;
+  gap: 20px;
+}
+.thumbnail-body {
+  justify-content: space-around;
+  padding-top: 15px;
+}
+.thumbnail-data > ul > li {
+  margin: 5px;
+}
+.thumbnail-trend {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 48px;
+}

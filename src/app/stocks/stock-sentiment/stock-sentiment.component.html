@@ -1,7 +1,11 @@
 <div class="border">
-  stock details!
-  {{ stock | json }}
-  {{ stockSentiment | json }}
+  stock details: {{ stock | json }}
+  <div *ngIf="stockProfile$ | async as stockProfile">
+    stockProfile: {{ stockProfile | json }}
+  </div>
+  <div *ngIf="stockSentiment$ | async as stockSentiment">
+    stockSentiment: {{ stockSentiment | json }}
+  </div>
 </div>
 <nav>
   <a [routerLink]="['/stocks']" class="button">< Back to list of stocks</a>

@@ -21,28 +21,6 @@ export class StocksService {
   ) {
     this.stockList = new Array();
     this.stockList$ = of(this.stockList);
-
-    this.stocksTraking.stock$.subscribe(
-      (data: IStock) => {
-        console.log('GOT1:', data);
-        if (
-          data &&
-          !this.stockList.find((stock) => {
-            return (
-              stock.symbol === data.symbol &&
-              data.name &&
-              data.currentPrice != 0
-            );
-          })
-        ) {
-          this.stockList.push(data);
-          this.stocksLocalStorage.addStocks(data.symbol);
-        }
-      },
-      (err) => console.log('Error:', err),
-      () => console.log('Completed')
-    );
-    //this.stocksTraking.stockSentiment$.subscribe()
   }
 
   load() {
@@ -57,6 +35,11 @@ export class StocksService {
         this.addCustomeStock(symbol);
       });
     }
+  }
+  addothercustom(data) {
+    this.stockList.push(data);
+    console.log('this.stockList', this.stockList);
+    this.stocksLocalStorage.addStocks(data.symbol);
   }
 
   getStocks(): Observable<IStock[]> {

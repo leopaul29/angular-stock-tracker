@@ -17,15 +17,7 @@ export class StocksTrackingService {
   selectedSymbolChanged(symbol: string): void {
     this.symbolSubject.next(symbol);
   }
-  stockSentiment$ = this.symbolSelectedAction$.pipe(
-    switchMap((symbol: string) =>
-      this.http
-        .get<ISentiment>(
-          `${this.stocksUrl}/stock/insider-sentiment?symbol=${symbol}&from=2015-01-01&to=2022-03-01`
-        )
-        .pipe(tap((data) => console.log('sentiment', JSON.stringify(data))))
-    )
-  );
+
   stockQuote$ = this.symbolSelectedAction$.pipe(
     switchMap((symbol: string) =>
       this.http.get<IQuote>(`${this.stocksUrl}/quote?symbol=${symbol}`).pipe(
@@ -63,7 +55,22 @@ export class StocksTrackingService {
     //tap((data) => console.log('stock', JSON.stringify(data))),
     catchError(this.handleError<IStock>('zipStock'))
   );
-
+  stockSentiment$ = this.symbolSelectedAction$.pipe(
+    switchMap((symbol: string) => {
+      let threeMonthBefore = new Date(new Date());
+      threeMonthBefore.setMonth(threeMonthBefore.getMonth() - 2);
+      const from = threeMonthBefore.toISOString().substring(0, 10);
+      const to = new Date().toISOString().substring(0, 10);
+      return this.http
+        .get<ISentiment>(
+          `${this.stocksUrl}/stock/insider-sentiment?symbol=${symbol}&from=${from}&to=${to}`
+        )
+        .pipe(
+          tap((data) => console.log('quote', JSON.stringify(data))),
+          catchError(this.handleError<IQuote>('sentiment'))
+        );
+    })
+  );
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);

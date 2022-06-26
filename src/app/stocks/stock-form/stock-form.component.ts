@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { StocksLocalStorageService } from '../../core/stocks-localStorage.service';
+import { StocksTrackingService } from '../../core/stocks-tracking.service';
 import { StocksService } from '../../core/stocks.service';
-import { IStockForm } from '../../models/stock.model';
+import { IStock, IStockForm } from '../../models/stock.model';
 
 @Component({
   selector: 'app-stock-form',
@@ -9,23 +10,40 @@ import { IStockForm } from '../../models/stock.model';
   styles: [],
 })
 export class StockFormComponent implements OnInit {
+  // form input
   stockSymbol: string;
-  stocklist: string;
   // ADD VALIDATION_ERR
   constructor(
     private stocksService: StocksService,
-    private stockslocalStorage: StocksLocalStorageService
+    private stocksTraking: StocksTrackingService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.stocksTraking.stock$.subscribe(
+      (data: IStock) => {
+        console.log('GOT1:', data);
+        if (
+          data &&
+          !this.stocksService.stockList.find((stock) => {
+            return (
+              stock.symbol === data.symbol &&
+              data.name &&
+              data.currentPrice != 0
+            );
+          })
+        ) {
+          this.stocksService.addothercustom(data);
+        }
+      },
+      (err) => console.log('Error:', err),
+      () => console.log('Completed')
+    );
+  }
 
   addStock(formValues: IStockForm): void {
     if (formValues && formValues.stockSymbol) {
       console.log('form addStock', formValues);
       this.stocksService.addStockBySymbol(formValues.stockSymbol);
-      this.stocklist = JSON.stringify(
-        this.stockslocalStorage.getStocklistArray()
-      );
     }
   }
 }

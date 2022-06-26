@@ -5,7 +5,7 @@ import { IStock } from '../../../models/stock.model';
 @Component({
   selector: 'app-stock-thumbnail',
   templateUrl: './stock-thumbnail.component.html',
-  styles: [],
+  styleUrls: ['./stock-thumbnail.component.css'],
 })
 export class StockThumbnailComponent implements OnInit {
   @Input() stock: IStock;
