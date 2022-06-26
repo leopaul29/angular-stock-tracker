@@ -9,10 +9,6 @@ import { RouterModule } from '@angular/router';
 import { appRoutes } from './routes';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
-import { StocksCustomLoaderService } from './core/stocks-customLoader.service';
-import { StocksLocalStorageService } from './core/stocks-localStorage.service';
-import { StocksTrackingService } from './core/stocks-tracking.service';
-import { StocksService } from './core/stocks.service';
 import {
   StockComponent,
   StockFormComponent,
@@ -38,15 +34,11 @@ import {
     BrowserModule,
     FormsModule,
     HttpClientModule,
-
+    CoreModule,
     SharedModule,
     RouterModule.forRoot(appRoutes),
   ],
   providers: [
-    StocksCustomLoaderService,
-    StocksTrackingService,
-    StocksService,
-    StocksLocalStorageService,
     { provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],

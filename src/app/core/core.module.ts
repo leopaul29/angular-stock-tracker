@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { StocksCustomLoaderService } from './stocks-customLoader.service';
 import { StocksLocalStorageService } from './stocks-localStorage.service';
@@ -7,7 +8,7 @@ import { StocksService } from './stocks.service';
 
 @NgModule({
   declarations: [],
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   providers: [
     StocksCustomLoaderService,
     StocksTrackingService,
