@@ -1,27 +1,27 @@
 <div *ngIf="stock" class="border stock-thumbnail">
   <div class="thumbnail-header">
-    <div class="thumbnail-title" [routerLink]="['/sentiment', stock.symbol]">
+    <div class="thumbnail-title" [routerLink]="['/sentiment', stock?.symbol]">
       <img
-        *ngIf="stock.logo"
-        src="{{ stock.logo }}"
-        alt="{{ stock.name }}"
+        *ngIf="stock?.logo"
+        src="{{ stock?.logo }}"
+        alt="{{ stock?.name }}"
         width="50"
       />
-      <h3>{{ stock.name | uppercase }}</h3>
+      <h3>{{ stock?.name | uppercase }}</h3>
     </div>
     <span class="thumbnail-delete" (click)="clear()">X</span>
   </div>
   <div class="thumbnail-body">
     <div class="thumbnail-data">
       <ul>
-        <li>Change today: {{ stock.changeToday }}%</li>
-        <li>Open price: {{ stock.openPrice | currency: 'USD' }}</li>
-        <li>Current price: {{ stock.currentPrice | currency: 'USD' }}</li>
-        <li>High price: {{ stock.highPrice | currency: 'USD' }}</li>
+        <li>Change today: {{ stock?.changeToday }}%</li>
+        <li>Open price: {{ stock?.openPrice | currency: 'USD' }}</li>
+        <li>Current price: {{ stock?.currentPrice | currency: 'USD' }}</li>
+        <li>High price: {{ stock?.highPrice | currency: 'USD' }}</li>
       </ul>
     </div>
     <div class="thumbnail-trend">
-      <app-stock-trend [trend]="stock.changeToday"></app-stock-trend>
+      <app-trend-arrow [trend]="stock?.changeToday"></app-trend-arrow>
     </div>
   </div>
 </div>

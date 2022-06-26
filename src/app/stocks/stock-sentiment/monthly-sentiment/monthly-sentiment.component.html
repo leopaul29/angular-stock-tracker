@@ -1,12 +1,12 @@
 <div class="monthly-body">
   <div class="monthly-data">
     <ul>
-      <li>{{ monthlySentiment.month | date: 'MMMM' | uppercase }}</li>
-      <li>Change: {{ monthlySentiment.change }}</li>
-      <li>MSPR: {{ monthlySentiment.mspr }}</li>
+      <li>{{ monthlySentiment?.month | date: 'MMMM' | uppercase }}</li>
+      <li>Change: {{ monthlySentiment?.change }}</li>
+      <li>MSPR: {{ monthlySentiment?.mspr }}</li>
     </ul>
   </div>
   <div class="monthly-trend">
-    <app-stock-trend [trend]="monthlySentiment.change"></app-stock-trend>
+    <app-trend-arrow [trend]="monthlySentiment?.change"></app-trend-arrow>
   </div>
 </div>

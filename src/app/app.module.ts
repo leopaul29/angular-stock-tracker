@@ -18,7 +18,7 @@ import { StockComponent } from './stocks/stocks.component';
 import { StockSentimentComponent } from './stocks/stock-sentiment/stock-sentiment.component';
 import { StocksCustomLoaderService } from './core/stocks-customLoader.service';
 import { MontlySentimentComponent } from './stocks/stock-sentiment/monthly-sentiment/monthly-sentiment.component';
-import { StockTrendComponent } from './stocks/stock-trend/stock-trend.component';
+import { TrendArrowComponent } from './stocks/trend-arrow/trend-arrow.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +30,7 @@ import { StockTrendComponent } from './stocks/stock-trend/stock-trend.component'
     StockListFilterComponent,
     StockSentimentComponent,
     MontlySentimentComponent,
-    StockTrendComponent,
+    TrendArrowComponent,
   ],
   imports: [
     BrowserModule,
