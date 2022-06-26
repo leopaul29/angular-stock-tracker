@@ -17,6 +17,7 @@ import { appRoutes } from './routes';
 import { StockComponent } from './stocks/stocks.component';
 import { StockSentimentComponent } from './stocks/stock-sentiment/stock-sentiment.component';
 import { StocksCustomLoaderService } from './core/stocks-customLoader.service';
+import { MontlySentimentComponent } from './stocks/stock-sentiment/monthly-sentiment/monthly-sentiment.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { StocksCustomLoaderService } from './core/stocks-customLoader.service';
     StockThumbnailComponent,
     StockListFilterComponent,
     StockSentimentComponent,
+    MontlySentimentComponent,
   ],
   imports: [
     BrowserModule,

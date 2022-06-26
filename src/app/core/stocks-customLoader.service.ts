@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { forkJoin, Observable, of, Subject } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
-import { IProfile, IQuote, ISentiment } from '../models/stock-tracking.model';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { IProfile, IQuote } from '../models/stock-tracking.model';
 import { IStock } from '../models/stock.model';
 
 @Injectable()

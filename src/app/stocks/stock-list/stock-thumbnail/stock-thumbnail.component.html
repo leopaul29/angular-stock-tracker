@@ -1,4 +1,4 @@
-<div class="border stock-thumbnail">
+<div *ngIf="stock" class="border stock-thumbnail">
   <div class="thumbnail-header">
     <div class="thumbnail-title" [routerLink]="['/sentiment', stock.symbol]">
       <img
@@ -21,9 +21,13 @@
       </ul>
     </div>
     <div class="thumbnail-trend">
-      <span *ngIf="stock.changeToday > 0" [ngStyle]="{color:'green'}">⇧</span>
-      <span *ngIf="stock.changeToday == 0" [ngStyle]="{color:'brown'}">=</span>
-      <span *ngIf="stock.changeToday < 0" [ngStyle]="{color:'red'}">⇩</span>
+      <span *ngIf="stock.changeToday > 0" [ngStyle]="{ color: 'green' }"
+        >⇧</span
+      >
+      <span *ngIf="stock.changeToday == 0" [ngStyle]="{ color: 'brown' }"
+        >=</span
+      >
+      <span *ngIf="stock.changeToday < 0" [ngStyle]="{ color: 'red' }">⇩</span>
     </div>
   </div>
 </div>

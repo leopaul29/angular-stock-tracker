@@ -12,6 +12,7 @@ import { StocksTrackingService } from './stocks-tracking.service';
 export class StocksService {
   stockList: IStock[];
   stockList$: Observable<IStock[]>;
+  stockSentiment;
 
   constructor(
     private stocksCustomLoader: StocksCustomLoaderService,
@@ -20,6 +21,7 @@ export class StocksService {
   ) {
     this.stockList = new Array();
     this.stockList$ = of(this.stockList);
+
   }
 
   addStock(stock: IStock): void {
@@ -29,6 +31,10 @@ export class StocksService {
 
   getStock(symbol: string): IStock {
     return this.stockList.find((stock) => stock.symbol === symbol);
+  }
+
+  getSentiment(symbol: string): void {
+    //stockSentiment
   }
 
   /**

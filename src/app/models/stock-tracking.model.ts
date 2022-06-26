@@ -14,7 +14,7 @@ export interface IProfile {
   marketCapitalization: number;
 }
 
-export interface ISentiment {
+export interface IInsiderSentiment {
   data: IMonthlySentiment[];
 }
 

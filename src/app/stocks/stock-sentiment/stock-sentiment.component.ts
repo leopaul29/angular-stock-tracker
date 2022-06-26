@@ -1,8 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { StocksTrackingService } from '../../core/stocks-tracking.service';
-import { StocksService } from '../../core/stocks.service';
-import { IStock } from '../../models/stock.model';
+import { ISentiment } from '../../models/stock.model';
 
 /**
  * displays the sentiment information for the last 3 months
@@ -13,21 +12,21 @@ import { IStock } from '../../models/stock.model';
   styles: [],
 })
 export class StockSentimentComponent implements OnInit {
-  stock: IStock;
-  stockProfile$ = this.stocksTraking.stockProfile$;
-  stockSentiment$ = this.stocksTraking.stockSentiment$;
+  sentiment: ISentiment;
 
   constructor(
-    private stocksService: StocksService,
     private stocksTraking: StocksTrackingService,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    console.log('init sentiment');
-    this.stock = this.stocksService.getStock(
-      this.route.snapshot.params['symbol']
+    const stockSymbol = this.route.snapshot.params['symbol'];
+    this.stocksTraking.stockSentiment$.subscribe(
+      (data: ISentiment) => (this.sentiment = data),
+      (err) => console.error(err),
+      () => console.log('complete')
     );
-    this.stocksTraking.selectedSymbolChanged(this.stock.symbol);
+    this.stocksTraking.selectedSymbolChanged(stockSymbol);
+    this.stocksTraking.stockSentiment$;
   }
 }

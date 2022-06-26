@@ -1,3 +1,5 @@
+import { IMonthlySentiment } from './stock-tracking.model';
+
 export interface IStock {
   symbol: string;
   name: string;
@@ -13,4 +15,19 @@ export interface IStock {
 
 export interface IStockForm {
   stockSymbol: string;
+}
+
+export interface ISentiment {
+  symbol: string;
+  name: string;
+  logo: string;
+  monthlySentiment: IMonthlySentimentCustom[];
+}
+
+export interface IMonthlySentimentCustom {
+  change: number;
+  month: number;
+  mspr: number;
+  symbol: String;
+  year: number;
 }
