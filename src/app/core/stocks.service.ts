@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { IProfile, IQuote } from '../models/stock-tracking.model';
 import { IStock } from '../models/stock.model';
 import { StockTrackingService } from './stock-tracking.service';
 import { StocksLocalStorageService } from './stocks-localStorage.service';
@@ -25,10 +24,16 @@ export class StocksService {
 
     this.stocksTraking.stock$.subscribe(
       (data: IStock) => {
-        //console.log('GOT1:', data);
+        console.log('GOT1:', data);
         if (
           data &&
-          !this.stockList.find((stock) => stock.symbol === data.symbol)
+          !this.stockList.find((stock) => {
+            return (
+              stock.symbol === data.symbol &&
+              data.name &&
+              data.currentPrice != 0
+            );
+          })
         ) {
           this.stockList.push(data);
           this.stocksLocalStorage.addStocks(data.symbol);
@@ -58,10 +63,7 @@ export class StocksService {
   }
 
   addStockBySymbol(symbol: string): void {
-    //console.log('symbol', symbol);
     this.stocksTraking.selectedSymbolChanged(symbol);
-    //this.stocksTraking.stock$;
-    //this.stocksTraking.a$;
     this.stocksTraking.stock$;
   }
 
@@ -76,27 +78,56 @@ export class StocksService {
 
     this.stockTraking.getStockProfile(symbol).subscribe(
       (data: IStock) => {
-        this.stockList.map((stock) => {
-          //console.log('data', data);
-          if (stock && stock.symbol === symbol) {
+        const index = this.stockList.findIndex(
+          (stock) => stock && stock.symbol === symbol && data.name
+        );
+        if (!data.name) {
+          this.stockList.splice(index, 1);
+        }
+        this.stockList[index] = {
+          ...this.stockList[index],
+          name: data.name,
+          logo: data.logo,
+        };
+        /*this.stockList.map((stock) => {
+          if (stock && stock.symbol === symbol && data.name) {
+            console.log('data profile', data);
             stock.name = data.name;
             stock.logo = data.logo;
           }
-        });
+        });*/
       },
       (err: any) => console.log(err)
     );
 
     this.stockTraking.getStockQuote(symbol).subscribe(
       (data: IStock) => {
-        this.stockList.map((stock, index) => {
-          if (stock && stock.symbol === symbol) {
-            this.stockList[index].changeToday = data.changeToday;
-            this.stockList[index].openPrice = data.openPrice;
-            this.stockList[index].currentPrice = data.currentPrice;
-            this.stockList[index].highPrice = data.highPrice;
+        const index = this.stockList.findIndex(
+          (stock) => stock && stock.symbol === symbol
+        );
+        if (data.currentPrice.toFixed(2) == '0.00') {
+          this.stockList.splice(index, 1);
+        }
+        this.stockList[index] = {
+          ...this.stockList[index],
+          changeToday: +data.changeToday.toFixed(2),
+          openPrice: +data.openPrice.toFixed(2),
+          currentPrice: +data.currentPrice.toFixed(2),
+          highPrice: +data.highPrice.toFixed(2),
+        };
+        /*this.stockList.map((stock, index) => {
+          if (
+            stock &&
+            stock.symbol === symbol &&
+            data.currentPrice.toFixed(2) != '0'
+          ) {
+            console.log('data quote', data.currentPrice.toFixed(2));
+            this.stockList[index].changeToday = +data.changeToday.toFixed(2);
+            this.stockList[index].openPrice = +data.openPrice.toFixed(2);
+            this.stockList[index].currentPrice = +data.currentPrice.toFixed(2);
+            this.stockList[index].highPrice = +data.highPrice.toFixed(2);
           }
-        });
+        });*/
       },
       (err: any) => console.log(err)
     );

@@ -4,25 +4,36 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { StockFormComponent } from './stock-form/stock-form.component';
 import { StockTrackingService } from './core/stock-tracking.service';
 import { StocksService } from './core/stocks.service';
-import { StockListComponent } from './stock-list/stock-list.component';
-import { StockThumbnailComponent } from './stock-list/stock-thumbnail.component';
 import { StocksLocalStorageService } from './core/stocks-localStorage.service';
-import { StockListFilterComponent } from './stock-list/stock-list-filter.component';
 import { StocksTrackingService } from './core/stocks-tracking.service';
 import { AddTokenInterceptor } from './core/add-token.interceptor';
+import { StockFormComponent } from './stocks/stock-form/stock-form.component';
+import { StockListComponent } from './stocks/stock-list/stock-list.component';
+import { StockThumbnailComponent } from './stocks/stock-list/stock-thumbnail.component';
+import { StockListFilterComponent } from './stocks/stock-list/stock-list-filter.component';
+import { StockDetailsComponent } from './stocks/stock-details/stock-details.component';
+import { RouterModule } from '@angular/router';
+import { appRoutes } from './routes';
+import { StockComponent } from './stocks/stocks.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    StockComponent,
     StockFormComponent,
     StockListComponent,
     StockThumbnailComponent,
     StockListFilterComponent,
+    StockDetailsComponent,
   ],
-  imports: [BrowserModule, FormsModule, HttpClientModule, FormsModule],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    RouterModule.forRoot(appRoutes),
+  ],
   providers: [
     StockTrackingService,
     StocksTrackingService,

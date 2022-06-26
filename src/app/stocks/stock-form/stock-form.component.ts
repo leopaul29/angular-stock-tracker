@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { StockTrackingService } from '../core/stock-tracking.service';
-import { StocksLocalStorageService } from '../core/stocks-localStorage.service';
-import { StocksService } from '../core/stocks.service';
-import { IStockForm } from '../models/stock.model';
+import { StocksLocalStorageService } from '../../core/stocks-localStorage.service';
+import { StocksService } from '../../core/stocks.service';
+import { IStockForm } from '../../models/stock.model';
 
 @Component({
   selector: 'app-stock-form',

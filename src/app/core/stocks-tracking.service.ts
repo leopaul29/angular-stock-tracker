@@ -5,7 +5,6 @@ import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { IProfile, IQuote } from '../models/stock-tracking.model';
 import { IStock } from '../models/stock.model';
 
-const STOCKTOKEN = 'bu4f8kn48v6uehqi3cqg';
 @Injectable()
 export class StocksTrackingService {
   private stocksUrl: string = 'https://finnhub.io/api/v1';
@@ -20,22 +19,16 @@ export class StocksTrackingService {
   }
   stockQuote$ = this.symbolSelectedAction$.pipe(
     switchMap((symbol) =>
-      this.http
-        .get<IQuote>(
-          `${this.stocksUrl}/quote?symbol=${symbol}&token=${STOCKTOKEN}`
-        )
-        .pipe(
-          //tap((data) => console.log('quote', JSON.stringify(data))),
-          catchError(this.handleError<IQuote>('quote'))
-        )
+      this.http.get<IQuote>(`${this.stocksUrl}/quote?symbol=${symbol}`).pipe(
+        //tap((data) => console.log('quote', JSON.stringify(data))),
+        catchError(this.handleError<IQuote>('quote'))
+      )
     )
   );
   stockProfile$ = this.symbolSelectedAction$.pipe(
     switchMap((symbol) =>
       this.http
-        .get<IProfile>(
-          `${this.stocksUrl}/stock/profile2?symbol=${symbol}&token=${STOCKTOKEN}`
-        )
+        .get<IProfile>(`${this.stocksUrl}/stock/profile2?symbol=${symbol}`)
         .pipe(
           //tap((data) => console.log('profile', JSON.stringify(data))),
           catchError(this.handleError<IProfile>('stock/profile2'))

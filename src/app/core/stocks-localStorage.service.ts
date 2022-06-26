@@ -37,6 +37,7 @@ export class StocksLocalStorageService {
         this.stocksSymbol = new Set(
           JSON.parse(storedStocks).filter((stock: string) => stock)
         );
+        this.store();
       } catch (err) {
         alert(
           'An error has been detected while decoding the stocklist in local memory.\nThe stocklist has been cleared'
