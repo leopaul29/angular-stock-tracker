@@ -1,0 +1,9 @@
+<div class="trend">
+<span *ngIf="trend > 0" [ngStyle]="{ color: 'green' }"
+  >⇧</span
+>
+<span *ngIf="trend == 0" [ngStyle]="{ color: 'brown' }"
+  >=</span
+>
+<span *ngIf="trend < 0" [ngStyle]="{ color: 'red' }">⇩</span>
+</div>

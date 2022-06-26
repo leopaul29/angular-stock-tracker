@@ -15,13 +15,12 @@
   border-bottom: 1px solid;
 }
 .sentiment-body {
-  justify-content: space-around;
+  justify-content: center;
   padding-top: 15px;
-}/*
-.sentiment-data > ul > li {
-  margin: 5px;
 }
-.sentiment-trend > span {
-  font-size: 48px;
-  font-weight: bold;
-}*/
+.sentiment-no-monthly {
+ color: red; 
+}
+.sentiment-monthly{
+  justify-content: space-evenly;
+}

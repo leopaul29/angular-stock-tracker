@@ -2,22 +2,29 @@
   <div class="sentiment-header">
     <img
       *ngIf="sentiment.logo"
-      src="{{ sentiment.logo }}"
-      alt="{{ sentiment.name }}"
+      src="{{ sentiment?.logo }}"
+      alt="{{ sentiment?.name }}"
       width="50"
     />
     <h3>{{ sentiment.name | uppercase }}</h3>
   </div>
   <div class="sentiment-body">
-    <div *ngIf="sentiment.monthlySentiment">
-      <div
-        *ngFor="let monthlySentiment of sentiment.monthlySentiment"
-        class="sentiment-monthly"
-      >
+    <div
+      *ngIf="sentiment?.monthlySentiment.length > 0"
+      class="sentiment-monthly"
+    >
+      <div *ngFor="let monthlySentiment of sentiment?.monthlySentiment">
         <app-monthly-sentiment
           [monthlySentiment]="monthlySentiment"
         ></app-monthly-sentiment>
       </div>
+    </div>
+    <div
+      *ngIf="sentiment?.monthlySentiment.length == 0"
+      class="sentiment-no-monthly"
+    >
+      No monthly sentiment data has been retrieved for
+      {{ sentiment.symbol }} stock!
     </div>
   </div>
 </div>

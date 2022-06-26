@@ -21,13 +21,7 @@
       </ul>
     </div>
     <div class="thumbnail-trend">
-      <span *ngIf="stock.changeToday > 0" [ngStyle]="{ color: 'green' }"
-        >⇧</span
-      >
-      <span *ngIf="stock.changeToday == 0" [ngStyle]="{ color: 'brown' }"
-        >=</span
-      >
-      <span *ngIf="stock.changeToday < 0" [ngStyle]="{ color: 'red' }">⇩</span>
+      <app-stock-trend [trend]="stock.changeToday"></app-stock-trend>
     </div>
   </div>
 </div>
