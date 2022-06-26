@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, Subject, zip } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import {
   IProfile,
   IQuote,
@@ -65,12 +65,16 @@ export class StocksTrackingService {
       threeMonthBefore.setMonth(threeMonthBefore.getMonth() - 2);
       const from = threeMonthBefore.toISOString().substring(0, 10);
       const to = new Date().toISOString().substring(0, 10);
+      console.log(
+        'sentiment url:',
+        `${this.stocksUrl}/stock/insider-sentiment?symbol=${symbol}&from=${from}&to=${to}`
+      );
       return this.http
         .get<IInsiderSentiment>(
           `${this.stocksUrl}/stock/insider-sentiment?symbol=${symbol}&from=${from}&to=${to}`
         )
         .pipe(
-          tap((data) => console.log('sentiment', JSON.stringify(data))),
+          //tap((data) => console.log('sentiment', JSON.stringify(data))),
           catchError(this.handleError<IInsiderSentiment>('sentiment'))
         );
     })
@@ -84,12 +88,6 @@ export class StocksTrackingService {
         logo: profile.logo,
         monthlySentiment: sentiment.data,
       } as ISentiment;
-
-      let monthlySentiment = stockSentiment.monthlySentiment.map((monthly) => {
-        return { ...monthly, mspr: +monthly.mspr.toFixed(2) };
-      });
-
-      stockSentiment.monthlySentiment = monthlySentiment;
 
       return stockSentiment;
     }),

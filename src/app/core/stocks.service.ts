@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { IStock } from '../models/stock.model';
 import { StocksCustomLoaderService } from './stocks-customLoader.service';
@@ -30,10 +30,6 @@ export class StocksService {
 
   getStock(symbol: string): IStock {
     return this.stockList.find((stock) => stock.symbol === symbol);
-  }
-
-  getSentiment(symbol: string): void {
-    //stockSentiment
   }
 
   /**

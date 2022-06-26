@@ -25,6 +25,7 @@ export interface ISentiment {
 export interface IMonthlySentimentCustom {
   change: number;
   month: number;
+  monthLabel: string;
   mspr: number;
   symbol: String;
   year: number;

@@ -1,8 +1,13 @@
 <div class="monthly-body">
   <div class="monthly-data">
     <ul>
-      <li>{{ monthlySentiment?.month | date: 'MMMM' | uppercase }}</li>
-      <li>Change: {{ monthlySentiment?.change }}</li>
+      <li>{{ monthlySentiment?.monthLabel | uppercase }}</li>
+      <li *ngIf="monthlySentiment?.change > 0">
+        Change: +{{ monthlySentiment?.change }}
+      </li>
+      <li *ngIf="monthlySentiment?.change < 0">
+        Change: {{ monthlySentiment?.change }}
+      </li>
       <li>MSPR: {{ monthlySentiment?.mspr }}</li>
     </ul>
   </div>

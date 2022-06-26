@@ -15,10 +15,14 @@
 [x] You can use Unicode arrows from this list or use your own images
 [x] The list of displayed stocks should be restored from local storage when the application is loaded in the browser
 
+- https://finnhub.io/docs/api/quote
+- https://finnhub.io/docs/api/symbol-search
+
 ## STEP #3 - Add an insider sentiment page
 
 [x] Use the component router to add a /sentiment/:symbol URL
-[] displays the sentiment information for the last 3 months
-[] For each, month display a green arrow if the change was positive, and a red arrow if negative
-[] Also, display both the values of change and mspr
-https://finnhub.io/docs/api/insider-sentiment
+[x] displays the sentiment information for the last 3 months
+[x] For each, month display a green arrow if the change was positive, and a red arrow if negative
+[x] Also, display both the values of change and mspr
+
+- https://finnhub.io/docs/api/insider-sentiment

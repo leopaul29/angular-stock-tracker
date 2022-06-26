@@ -3,15 +3,8 @@ import { StocksService } from '../../core/stocks.service';
 
 @Component({
   selector: 'app-stock-list',
-  template: `<app-stock-list-filter></app-stock-list-filter>
-  <b>filter here</b>
-  <button (click)="clearAll()">Clear All</button>
-  <div *ngIf="stockList$ | async as stockList">
-    <div *ngFor="let stock of stockList">
-      <app-stock-thumbnail [stock]="stock"></app-stock-thumbnail> 
-    </div>
-  </div>`,
-  styles: [],
+  templateUrl: './stock-list.component.html',
+  styleUrls: ['stock-list.component.ts'],
 })
 export class StockListComponent implements OnInit {
   //visibleStockList: IStock[];
