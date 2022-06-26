@@ -59,11 +59,11 @@ export class StocksService {
   }
 
   getStocks(): Observable<IStock[]> {
-    return of(this.stockList);
+    return this.stockList$;
   }
 
   getStock(symbol: string): IStock {
-    return this.stockList.find((stock) => stock.symbol == symbol);
+    return this.stockList.find((stock) => stock.symbol === symbol);
   }
 
   addStockBySymbol(symbol: string): void {
@@ -71,13 +71,29 @@ export class StocksService {
     this.stocksTraking.stock$;
   }
 
-  clearAll() {
-    this.stocksLocalStorage.clearStocksSymbol();
+  clear(symbol: string): void {
+    console.log('clear', symbol);
+    this.stocksLocalStorage.clearStockSymbol(symbol);
+    this.stocksLocalStorage.store();
+    //this.stockList.find((stock) => stock.symbol !== symbol);
+    const index = this.stockList.findIndex(
+      (stock) => stock && stock.symbol === symbol
+    );
+    this.stockList.splice(index, 1);
+    this.displaystocklist();
+  }
+
+  displaystocklist() {
+    console.log('this.stockList', JSON.stringify(this.stockList));
+  }
+
+  clearAll(): void {
+    this.stocksLocalStorage.clearAllStocksSymbol();
     this.stocksLocalStorage.clearLocalStorage();
     this.stockList.length = 0;
   }
 
-  addCustomeStock(symbol) {
+  addCustomeStock(symbol: string): void {
     this.stockList.push({ symbol: symbol } as IStock);
 
     this.stockTraking.getStockProfile(symbol).subscribe(

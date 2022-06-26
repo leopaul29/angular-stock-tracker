@@ -5,11 +5,11 @@ import { IStock } from '../../models/stock.model';
 
 @Component({
   selector: 'app-stock-details',
-  template: `<div>stock details!
+  template: `<div class="border">stock details!
   {{stock | json}}
   </div>
   <nav>
-  <a [routerLink]="['/stocks']">Back to main</a>
+  <a [routerLink]="['/stocks']" class="button">< Back to list of stocks</a>
   </nav>`,
   styles: [],
 })

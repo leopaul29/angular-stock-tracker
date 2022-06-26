@@ -29,7 +29,7 @@ export class StocksLocalStorageService {
   }
 
   load(): void {
-    this.clearStocksSymbol();
+    this.clearAllStocksSymbol();
     let storedStocks = localStorage.getItem(this.key);
 
     if (storedStocks && this.stocksSymbol) {
@@ -46,13 +46,19 @@ export class StocksLocalStorageService {
           'Cannot restor stock data. The stocklist has been cleared',
           err
         );
-        this.clearStocksSymbol();
+        this.clearAllStocksSymbol();
         this.clearLocalStorage();
       }
     }
   }
 
-  clearStocksSymbol(): void {
+  clearStockSymbol(symbol: string): void {
+    if (this.stocksSymbol) {
+      this.stocksSymbol.delete(symbol);
+    }
+  }
+
+  clearAllStocksSymbol(): void {
     if (this.stocksSymbol) {
       this.stocksSymbol.clear();
     } else {

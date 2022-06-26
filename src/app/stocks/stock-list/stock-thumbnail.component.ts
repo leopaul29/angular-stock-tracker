@@ -1,12 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { StocksService } from '../../core/stocks.service';
 import { IStock } from '../../models/stock.model';
 
 @Component({
   selector: 'app-stock-thumbnail',
-  template: `<div class="border stock-thumbnail" [routerLink]="['/stocks', stock.symbol]">
+  template: `<div class="border stock-thumbnail" >
   <div class="thumbnail-header">
+  <div class="thumbnail-title" [routerLink]="['/stocks', stock.symbol]">
     <img *ngIf="stock.logo" src={{stock.logo}} alt={{stock.name}} width="50"/>
-    <h3>{{stock.name | uppercase}}</h3>
+    <h3>{{stock.name | uppercase}}</h3></div>
+    <span (click)="clear()">xXx</span>
   </div>
   <div class="thumbnail-body">
     <div class="thumbnail-data">
@@ -18,19 +21,34 @@ import { IStock } from '../../models/stock.model';
       </ul>
     </div>
     <div class="thumbnail-trend" [ngStyle]="getTrendStyle()">
-      <span *ngIf="stock.changeToday > 0" style="color:green; height:100px;">⇧</span>
-      <span *ngIf="stock.changeToday == 0 "style="color:brown;">=</span>
-      <span *ngIf="stock.changeToday < 0 "style="color:red;">⇩</span>
+      <span *ngIf="stock.changeToday > 0">⇧</span>
+      <span *ngIf="stock.changeToday == 0" >=</span>
+      <span *ngIf="stock.changeToday < 0 ">⇩</span>
     </div>
   </div>`,
   styles: [],
 })
 export class StockThumbnailComponent implements OnInit {
   @Input() stock: IStock;
-  constructor() {}
+  constructor(private stocksService: StocksService) {}
 
   ngOnInit() {}
+
+  clear() {
+    this.stocksService.clear(this.stock.symbol);
+  }
+
   getTrendStyle() {
-    return { color: 'green' };
+    const trend = this.stock?.changeToday;
+    switch (true) {
+      case trend > 0:
+        return { color: 'green' };
+      case trend < 0:
+        return { color: 'red' };
+      case trend == 0:
+        return { color: 'brown' };
+      default:
+        return { color: 'black' };
+    }
   }
 }

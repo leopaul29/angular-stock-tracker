@@ -3,8 +3,7 @@ import { StocksService } from '../../core/stocks.service';
 
 @Component({
   selector: 'app-stock-list',
-  template: `stocklistjson:{{stocklistjson}}
-  <app-stock-list-filter></app-stock-list-filter>
+  template: `<app-stock-list-filter></app-stock-list-filter>
   <b>filter here</b>
   <button (click)="clearAll()">Clear All</button>
   <div *ngIf="stockList$ | async as stockList">
@@ -15,17 +14,13 @@ import { StocksService } from '../../core/stocks.service';
   styles: [],
 })
 export class StockListComponent implements OnInit {
-  //stockList: IStock[];
   //visibleStockList: IStock[];
-  stocklistjson: string;
 
   stockList$ = this.stocksService.stockList$;
 
   constructor(private stocksService: StocksService) {}
 
-  ngOnInit() {
-    this.stocklistjson = JSON.stringify(this.stocksService.getStocks());
-  }
+  ngOnInit() {}
 
   clearAll() {
     this.stocksService.clearAll();
