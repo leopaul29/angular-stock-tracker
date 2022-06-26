@@ -11,12 +11,12 @@ import { StocksTrackingService } from './core/stocks-tracking.service';
 import { AddTokenInterceptor } from './core/add-token.interceptor';
 import { StockFormComponent } from './stocks/stock-form/stock-form.component';
 import { StockListComponent } from './stocks/stock-list/stock-list.component';
-import { StockThumbnailComponent } from './stocks/stock-list/stock-thumbnail.component';
+import { StockThumbnailComponent } from './stocks/stock-list/stock-thumbnail/stock-thumbnail.component';
 import { StockListFilterComponent } from './stocks/stock-list/stock-list-filter.component';
-import { StockDetailsComponent } from './stocks/stock-details/stock-details.component';
 import { RouterModule } from '@angular/router';
 import { appRoutes } from './routes';
 import { StockComponent } from './stocks/stocks.component';
+import { StockSentimentComponent } from './stocks/stock-sentiment/stock-sentiment.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +26,7 @@ import { StockComponent } from './stocks/stocks.component';
     StockListComponent,
     StockThumbnailComponent,
     StockListFilterComponent,
-    StockDetailsComponent,
+    StockSentimentComponent,
   ],
   imports: [
     BrowserModule,

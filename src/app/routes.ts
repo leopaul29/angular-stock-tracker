@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { StockDetailsComponent } from './stocks/stock-details/stock-details.component';
+import { StockSentimentComponent } from './stocks/stock-sentiment/stock-sentiment.component';
 import { StockComponent } from './stocks/stocks.component';
 
 export const appRoutes: Routes = [
   { path: 'stocks', component: StockComponent },
-  { path: 'stocks/:symbol', component: StockDetailsComponent },
+  { path: 'sentiment/:symbol', component: StockSentimentComponent },
   { path: '', redirectTo: '/stocks', pathMatch: 'full' },
 ];

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, Subject, zip } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { IProfile, IQuote } from '../models/stock-tracking.model';
+import { IProfile, IQuote, ISentiment } from '../models/stock-tracking.model';
 import { IStock } from '../models/stock.model';
 
 @Injectable()
@@ -17,8 +17,17 @@ export class StocksTrackingService {
   selectedSymbolChanged(symbol: string): void {
     this.symbolSubject.next(symbol);
   }
+  stockSentiment$ = this.symbolSelectedAction$.pipe(
+    switchMap((symbol: string) =>
+      this.http
+        .get<ISentiment>(
+          `${this.stocksUrl}/stock/insider-sentiment?symbol=${symbol}&from=2015-01-01&to=2022-03-01`
+        )
+        .pipe(tap((data) => console.log('sentiment', JSON.stringify(data))))
+    )
+  );
   stockQuote$ = this.symbolSelectedAction$.pipe(
-    switchMap((symbol) =>
+    switchMap((symbol: string) =>
       this.http.get<IQuote>(`${this.stocksUrl}/quote?symbol=${symbol}`).pipe(
         //tap((data) => console.log('quote', JSON.stringify(data))),
         catchError(this.handleError<IQuote>('quote'))
@@ -26,7 +35,7 @@ export class StocksTrackingService {
     )
   );
   stockProfile$ = this.symbolSelectedAction$.pipe(
-    switchMap((symbol) =>
+    switchMap((symbol: string) =>
       this.http
         .get<IProfile>(`${this.stocksUrl}/stock/profile2?symbol=${symbol}`)
         .pipe(

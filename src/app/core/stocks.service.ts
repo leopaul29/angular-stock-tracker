@@ -42,6 +42,7 @@ export class StocksService {
       (err) => console.log('Error:', err),
       () => console.log('Completed')
     );
+    //this.stocksTraking.stockSentiment$.subscribe()
   }
 
   load() {

@@ -13,9 +13,7 @@ export class StockTrackingService {
 
   getStockQuote(symbol: string): Observable<IStock> {
     return this.http
-      .get<IQuote>(
-        `${this.stocksUrl}/quote?symbol=${symbol}`
-      )
+      .get<IQuote>(`${this.stocksUrl}/quote?symbol=${symbol}`)
       .pipe(
         map(
           (s) =>
@@ -33,9 +31,7 @@ export class StockTrackingService {
 
   getStockProfile(symbol: string): Observable<IStock> {
     return this.http
-      .get<IProfile>(
-        `${this.stocksUrl}/stock/profile2?symbol=${symbol}`
-      )
+      .get<IProfile>(`${this.stocksUrl}/stock/profile2?symbol=${symbol}`)
       .pipe(
         map(
           (s) =>
@@ -48,7 +44,7 @@ export class StockTrackingService {
         catchError(this.handleError<IStock>('stock/profile2'))
       );
   }
-  getStockProfile2(symbol: string): any {
+  /*getStockProfile2(symbol: string): any {
     let profile = this.http.get(
       `${this.stocksUrl}/stock/profile2?symbol=${symbol}`
     );
@@ -59,7 +55,7 @@ export class StockTrackingService {
     forkJoin([profile, quote]).subscribe((data) => {
       return data;
     });
-  }
+  }*/
 
   getSentiment(symbol: string) {
     // https://finnhub.io/api/v1/stock/insider-sentiment?symbol=TSLA&from=2022-04-01&to=2022-06-01&token=bu4f8kn48v6uehqi3cqg
