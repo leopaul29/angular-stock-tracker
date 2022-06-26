@@ -3,7 +3,7 @@ import { IStock } from '../models/stock.model';
 
 @Component({
   selector: 'app-stock-thumbnail',
-  template: `<div>
+  template: `<div >
   <h3>
     <img src={{stock.logo}} alt={{stock.name}} width="50"/>
     {{stock.name | uppercase}}

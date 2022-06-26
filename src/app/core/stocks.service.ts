@@ -23,16 +23,9 @@ export class StocksService {
     this.stockList = new Array();
     this.stockList$ = of(this.stockList);
 
-    /* this.stocksTraking.stock$.subscribe(
+    this.stocksTraking.stock$.subscribe(
       (data: IStock) => {
-        this.stockList.push(data);
-      },
-      (err) => console.error(err)
-    );*/
-
-    this.stocksTraking.b$.subscribe(
-      (data: IStock) => {
-        console.log('GOT1:', data);
+        //console.log('GOT1:', data);
         if (
           data &&
           !this.stockList.find((stock) => stock.symbol === data.symbol)
@@ -65,11 +58,11 @@ export class StocksService {
   }
 
   addStockBySymbol(symbol: string): void {
-    console.log('symbol', symbol);
+    //console.log('symbol', symbol);
     this.stocksTraking.selectedSymbolChanged(symbol);
     //this.stocksTraking.stock$;
     //this.stocksTraking.a$;
-    this.stocksTraking.b$;
+    this.stocksTraking.stock$;
   }
 
   clearAll() {
@@ -84,7 +77,7 @@ export class StocksService {
     this.stockTraking.getStockProfile(symbol).subscribe(
       (data: IStock) => {
         this.stockList.map((stock) => {
-          console.log('data', data);
+          //console.log('data', data);
           if (stock && stock.symbol === symbol) {
             stock.name = data.name;
             stock.logo = data.logo;
