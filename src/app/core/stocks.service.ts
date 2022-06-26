@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Injectable, OnDestroy, OnInit } from '@angular/core';
+import { forkJoin, from, Observable, of } from 'rxjs';
 import { IStock } from '../models/stock.model';
 import { StocksLocalStorageService } from './stocks-localStorage.service';
 import { StocksTrackingService } from './stocks-tracking.service';
@@ -20,11 +20,19 @@ export class StocksService {
     this.stockList = new Array();
     this.stockList$ = of(this.stockList); //.pipe(tap((data) => console.log(data)));
 
-    this.stocksTraking.stock$.subscribe(
+    /* this.stocksTraking.stock$.subscribe(
       (data: IStock) => {
         this.stockList.push(data);
       },
       (err) => console.error(err)
+    );*/
+
+    this.stocksTraking.b$.subscribe(
+      (data: IStock) => {
+        console.log('GOT1:', data), this.stockList.push(data);
+      },
+      (err) => console.log('Error:', err),
+      () => console.log('Completed')
     );
   }
 
@@ -49,7 +57,9 @@ export class StocksService {
   addStockBySymbol(symbol: string): void {
     console.log('symbol', symbol);
     this.stocksTraking.selectedSymbolChanged(symbol);
-    this.stocksTraking.stock$;
+    //this.stocksTraking.stock$;
+    //this.stocksTraking.a$;
+    this.stocksTraking.b$;
     this.stocksLocalStorage.addStocks(symbol);
   }
 
