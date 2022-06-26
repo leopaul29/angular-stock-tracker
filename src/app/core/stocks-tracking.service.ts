@@ -63,10 +63,8 @@ export class StocksTrackingService {
     catchError(this.handleError<IStock>('combineStock'))
   );*/
 
-  b$ = zip(this.stockQuote$, this.stockProfile$).pipe(
-    map(([quote, profile]) => {
-      if (!profile?.name) return;
-
+  b$ = zip(this.stockProfile$, this.stockQuote$).pipe(
+    map(([profile, quote]) => {
       return {
         symbol: profile.ticker,
         name: profile.name,

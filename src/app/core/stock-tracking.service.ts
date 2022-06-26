@@ -44,6 +44,7 @@ export class StockTrackingService {
             <IStock>{
               symbol: symbol,
               name: s.name,
+              logo: s.logo,
             }
         ),
         catchError(this.handleError<IStock>('stock/profile2'))

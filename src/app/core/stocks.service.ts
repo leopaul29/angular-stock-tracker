@@ -1,6 +1,8 @@
-import { Injectable, OnDestroy, OnInit } from '@angular/core';
-import { forkJoin, from, Observable, of } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { IProfile, IQuote } from '../models/stock-tracking.model';
 import { IStock } from '../models/stock.model';
+import { StockTrackingService } from './stock-tracking.service';
 import { StocksLocalStorageService } from './stocks-localStorage.service';
 import { StocksTrackingService } from './stocks-tracking.service';
 
@@ -14,6 +16,7 @@ export class StocksService {
   stockList$: Observable<IStock[]>;
 
   constructor(
+    private stockTraking: StockTrackingService,
     private stocksTraking: StocksTrackingService,
     private stocksLocalStorage: StocksLocalStorageService
   ) {
@@ -30,7 +33,10 @@ export class StocksService {
     this.stocksTraking.b$.subscribe(
       (data: IStock) => {
         console.log('GOT1:', data);
-        if (data) {
+        if (
+          data &&
+          !this.stockList.find((stock) => stock.symbol === data.symbol)
+        ) {
           this.stockList.push(data);
           this.stocksLocalStorage.addStocks(data.symbol);
         }
@@ -49,7 +55,7 @@ export class StocksService {
     console.log('localStorageStockList', localStorageStockList);
     if (localStorageStockList) {
       localStorageStockList.map((symbol) => {
-        this.addStockBySymbol(symbol);
+        this.addCustomeStock(symbol);
       });
     }
   }
@@ -71,24 +77,24 @@ export class StocksService {
     this.stocksLocalStorage.clearLocalStorage();
     this.stockList.length = 0;
   }
-}
-/*    this.stockList.push(newStock);
 
-    //this.stockTraking.getStockProfile(symbol).subscribe(
-    this.stockTraking.stockProfile$.subscribe(
+  addCustomeStock(symbol) {
+    this.stockList.push({ symbol: symbol } as IStock);
+
+    this.stockTraking.getStockProfile(symbol).subscribe(
       (data: IStock) => {
-        this.stockList.map((stock, index) => {
+        this.stockList.map((stock) => {
           console.log('data', data);
           if (stock && stock.symbol === symbol) {
             stock.name = data.name;
+            stock.logo = data.logo;
           }
         });
       },
       (err: any) => console.log(err)
     );
 
-    //this.stockTraking.getStockQuote(symbol).subscribe(
-    this.stockTraking.stockQuote$.subscribe(
+    this.stockTraking.getStockQuote(symbol).subscribe(
       (data: IStock) => {
         this.stockList.map((stock, index) => {
           if (stock && stock.symbol === symbol) {
@@ -102,7 +108,9 @@ export class StocksService {
       (err: any) => console.log(err)
     );
 
-    this.stockTraking.getStockProfile2(symbol).subscribe(
+    /*this.stockTraking.getStockProfile2(symbol).subscribe(
       (data: IStock) => this.stockList.push(data),
       (err: any) => console.log(err)
     );*/
+  }
+}
