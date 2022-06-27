@@ -14,6 +14,58 @@ export class StocksManagerService {
   constructor(private storage: StorageService) {
     this.stockList = new Array<IStock>();
     this.stockList$ = of(this.stockList);
+
+    this.storage.load();
+    this.intiStocklist(this.storage.getSymbolList());
+  }
+
+  private intiStocklist(storageStockList: string[]) {
+    console.log('storageStockList', storageStockList);
+    if (storageStockList) {
+      storageStockList.map((symbol) => {
+        this.addStockBySymbol(symbol);
+      });
+    }
+  }
+
+  addStockBySymbol(symbol: string): void {
+    this.stockList.push({ symbol: symbol } as IStock);
+
+    /*this.stocksCustomLoader.getStockProfile(symbol).subscribe(
+      (data: IStock) => {
+        const index = this.stockList.findIndex(
+          (stock) => stock && stock.symbol === symbol && data.name
+        );
+        if (!data.name) {
+          this.stockList.splice(index, 1);
+        }
+        this.stockList[index] = {
+          ...this.stockList[index],
+          name: data.name,
+          logo: data.logo,
+        };
+      },
+      (err: any) => console.error(err)
+    );
+
+    this.stocksCustomLoader.getStockQuote(symbol).subscribe(
+      (data: IStock) => {
+        const index = this.stockList.findIndex(
+          (stock) => stock && stock.symbol === symbol
+        );
+        if (data.currentPrice.toFixed(2) == '0.00') {
+          this.stockList.splice(index, 1);
+        }
+        this.stockList[index] = {
+          ...this.stockList[index],
+          changeToday: +data.changeToday.toFixed(2),
+          openPrice: +data.openPrice.toFixed(2),
+          currentPrice: +data.currentPrice.toFixed(2),
+          highPrice: +data.highPrice.toFixed(2),
+        };
+      },
+      (err: any) => console.error(err)
+    );*/
   }
 
   stockExist(symbol: string): boolean {
