@@ -6,7 +6,7 @@ import { IStock } from '../models/stock.model';
   providedIn: 'root',
 })
 export class StorageService {
-  private key = 'STOCKSSYMBOLLIST';
+  private key = 'STOCKSYMBOLLIST';
   private symbolList: string[];
 
   constructor() {
@@ -30,7 +30,9 @@ export class StorageService {
 
     if (storedStocks) {
       try {
-        return JSON.parse(storedStocks).filter((stock: string) => stock);
+        this.symbolList = JSON.parse(storedStocks).filter(
+          (stock: string) => stock
+        );
       } catch (err) {
         alert(
           'An error has been detected while decoding the stocklist in local memory.\nThe stocklist has been cleared'

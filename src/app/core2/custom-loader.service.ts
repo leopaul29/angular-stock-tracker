@@ -6,7 +6,7 @@ import { IProfile, IQuote } from '../models/stock-tracking.model';
 import { IStock } from '../models/stock.model';
 
 @Injectable()
-export class StocksCustomLoaderService {
+export class CustomLoaderService {
   private stocksUrl: string = 'https://finnhub.io/api/v1';
 
   constructor(private http: HttpClient) {}

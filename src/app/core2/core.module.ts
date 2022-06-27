@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { StocksManagerService } from './stocks-manager.service';
-import { StoreService } from './store.service';
 import { StocksService } from './stock.service';
 import { FilterStocksService } from '../core/filter-stocks.service';
+import { CustomLoaderService } from './custom-loader.service';
 
 @NgModule({
   declarations: [],
@@ -12,8 +12,8 @@ import { FilterStocksService } from '../core/filter-stocks.service';
   providers: [
     StocksManagerService,
     StocksService,
-    StoreService,
     FilterStocksService,
+    CustomLoaderService,
   ],
 })
 export class CoreModule {}
