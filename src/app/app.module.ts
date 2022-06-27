@@ -14,7 +14,6 @@ import {
   StockFormComponent,
   StockListComponent,
   StockThumbnailComponent,
-  StockListFilterComponent,
   StockSentimentComponent,
   MontlySentimentComponent,
 } from './stocks/index';
@@ -26,7 +25,6 @@ import {
     StockFormComponent,
     StockListComponent,
     StockThumbnailComponent,
-    StockListFilterComponent,
     StockSentimentComponent,
     MontlySentimentComponent,
   ],

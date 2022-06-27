@@ -19,10 +19,13 @@ export class StockSentimentComponent implements OnInit, OnDestroy {
   constructor(
     private stocksTraking: StocksTrackingService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.sentiment = {} as ISentiment;
+    this.sentimentSubscription = new Subscription();
+  }
 
   ngOnInit() {
-    const stockSymbol = this.route.snapshot.params['symbol'];
+    const stockSymbol: string = this.route.snapshot.params['symbol'];
     this.sentimentSubscription = this.stocksTraking.stockSentiment$.subscribe(
       (data: ISentiment) => (this.sentiment = data),
       (err) => console.error(err),

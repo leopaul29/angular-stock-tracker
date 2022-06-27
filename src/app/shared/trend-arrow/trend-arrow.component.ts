@@ -7,7 +7,9 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class TrendArrowComponent implements OnInit {
   @Input() trend: number;
-  constructor() {}
+  constructor() {
+    this.trend = 0;
+  }
 
   ngOnInit() {}
 }

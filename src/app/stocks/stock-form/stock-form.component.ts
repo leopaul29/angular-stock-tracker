@@ -18,7 +18,10 @@ export class StockFormComponent implements OnInit, OnDestroy {
   constructor(
     private stocksService: StocksService,
     private stocksTraking: StocksTrackingService
-  ) {}
+  ) {
+    this.stockSymbol = '';
+    this.stockListSubscription = new Subscription();
+  }
 
   ngOnInit() {
     this.stockListSubscription = this.stocksTraking.stock$.subscribe(

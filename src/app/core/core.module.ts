@@ -5,6 +5,7 @@ import { StocksCustomLoaderService } from './stocks-customLoader.service';
 import { StocksLocalStorageService } from './stocks-localStorage.service';
 import { StocksTrackingService } from './stocks-tracking.service';
 import { StocksService } from './stocks.service';
+import { FilterStocksService } from './filter-stocks.service';
 
 @NgModule({
   declarations: [],
@@ -14,6 +15,7 @@ import { StocksService } from './stocks.service';
     StocksTrackingService,
     StocksService,
     StocksLocalStorageService,
+    FilterStocksService,
   ],
 })
 export class CoreModule {}

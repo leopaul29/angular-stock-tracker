@@ -25,8 +25,10 @@ export class StocksService {
     this.stocksLocalStorage.addStocks(stock.symbol);
   }
 
-  getStock(symbol: string): IStock {
-    return this.stockList.find((stock) => stock.symbol === symbol);
+  getStock(symbol: string): IStock | undefined {
+    return this.stockList.find(
+      (stock: IStock | undefined) => stock?.symbol === symbol
+    );
   }
 
   remove(symbol: string): void {

@@ -1,3 +1,4 @@
+<div *ngIf="!stock"><app-loading></app-loading></div>
 <div *ngIf="stock" class="border stock-thumbnail">
   <div class="thumbnail-header">
     <div class="thumbnail-title" [routerLink]="['/sentiment', stock?.symbol]">

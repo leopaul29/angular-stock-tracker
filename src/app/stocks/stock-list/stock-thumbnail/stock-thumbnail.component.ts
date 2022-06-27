@@ -10,7 +10,9 @@ import { IStock } from '../../../models/stock.model';
 export class StockThumbnailComponent implements OnInit {
   @Input() stock: IStock;
 
-  constructor(private stocksService: StocksService) {}
+  constructor(private stocksService: StocksService) {
+    this.stock = {} as IStock;
+  }
 
   ngOnInit() {}
 

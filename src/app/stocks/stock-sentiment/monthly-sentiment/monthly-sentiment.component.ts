@@ -8,7 +8,9 @@ import { IMonthlySentimentCustom } from '../../../models/stock.model';
 })
 export class MontlySentimentComponent implements OnInit {
   @Input() monthlySentiment: IMonthlySentimentCustom;
-  constructor() {}
+  constructor() {
+    this.monthlySentiment = {} as IMonthlySentimentCustom;
+  }
 
   ngOnInit() {
     const months = [
