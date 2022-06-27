@@ -1,12 +1,20 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'my-app',
-  template: `<router-outlet></router-outlet>`,
+  template: `
+  <div class="container">
+    <h1>{{title}}</h1>
+    <router-outlet></router-outlet>
+  </div>`,
   styles: [],
 })
 export class AppComponent implements OnInit {
+  title:string
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.title=environment.title
+  }
 }

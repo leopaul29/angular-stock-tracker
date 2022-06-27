@@ -3,7 +3,6 @@
   margin: 0;
   padding: 0;
   color: black;
-  font-size: 16px;
 }
 a {
   text-decoration: none;
@@ -14,7 +13,7 @@ a:active {
 ul {
   list-style: none;
 }
-body {
+.container {
   margin: auto;
   margin-top: 10px;
   max-width: 700px;
