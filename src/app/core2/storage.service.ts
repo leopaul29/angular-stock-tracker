@@ -1,20 +1,23 @@
-import { Injectable, OnInit } from '@angular/core';
-import { StocksService } from '../core2/stock.service';
+import { Injectable } from '@angular/core';
 import { IStock } from '../models/stock.model';
-import { StocksManagerService } from './stocks-manager.service';
 
 @Injectable({
   // singleton
   providedIn: 'root',
 })
-export class StoreService implements OnInit {
+export class StorageService {
   private key = 'STOCKSSYMBOLLIST';
+  private symbolList: string[];
 
-  constructor(private stocksService: StocksService) {}
+  constructor() {
+    this.symbolList = [];
+  }
 
-  ngOnInit(): void {}
+  getSymbolList(): string[] {
+    return this.symbolList;
+  }
 
-  store(stocklist: IStock[]) {
+  store(stocklist: IStock[]): void {
     const stocksToStore: string[] = stocklist.map(
       (stock: IStock) => stock.symbol
     );
@@ -27,15 +30,7 @@ export class StoreService implements OnInit {
 
     if (storedStocks) {
       try {
-        const tempStockList: string[] = JSON.parse(storedStocks).filter(
-          (stock: string) => stock
-        );
-        console.log('storeService-load:', JSON.stringify(tempStockList));
-        tempStockList.map((symbol) => {
-          console.log('load', symbol);
-          this.stocksService.selectedSymbolChanged(symbol);
-          this.stocksService.stock$;
-        });
+        return JSON.parse(storedStocks).filter((stock: string) => stock);
       } catch (err) {
         alert(
           'An error has been detected while decoding the stocklist in local memory.\nThe stocklist has been cleared'

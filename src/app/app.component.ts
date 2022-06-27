@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { StoreService } from './core2/store.service';
+import { StorageService } from './core2/storage.service';
 
 @Component({
   selector: 'my-app',
@@ -7,9 +7,9 @@ import { StoreService } from './core2/store.service';
   styles: [],
 })
 export class AppComponent implements OnInit {
-  constructor(private storeService: StoreService) {}
+  constructor(private storage: StorageService) {}
 
   ngOnInit(): void {
-    this.storeService.load();
+    this.storage.load();
   }
 }

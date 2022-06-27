@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { IStock } from '../models/stock.model';
-import { StoreService } from './store.service';
+import { StorageService } from './storage.service';
 
 @Injectable({
   // singleton
@@ -11,7 +11,7 @@ export class StocksManagerService {
   private stockList: IStock[];
   stockList$: Observable<IStock[]>;
 
-  constructor(private storeService: StoreService) {
+  constructor(private storage: StorageService) {
     this.stockList = new Array<IStock>();
     this.stockList$ = of(this.stockList);
   }
@@ -27,7 +27,7 @@ export class StocksManagerService {
   addStock(stock: IStock) {
     if (this.stockList && stock && !this.stockExist(stock.symbol)) {
       this.stockList.push(stock);
-      this.storeService.store(this.stockList);
+      this.storage.store(this.stockList);
     }
   }
 
@@ -38,11 +38,10 @@ export class StocksManagerService {
       (stock) => stock && stock.symbol === symbol
     );
     this.stockList.splice(index, 1);
-    this.storeService.store(this.stockList);
+    this.storage.store(this.stockList);
   }
-
   clearAll(): void {
     this.stockList.length = 0;
-    this.storeService.store(this.stockList);
+    this.storage.store(this.stockList);
   }
 }

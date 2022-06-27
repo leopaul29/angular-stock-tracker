@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-loading',
-  template: `LOADING...`,
-  styleUrls: ['./loading.component.css'],
+  template: `<div *ngIf="loading" class="loading">LOADING...</div>`,
+  styles: [],
 })
 export class LoadingComponent implements OnInit {
+  @Input() loading: boolean;
   constructor() {}
-  ngOnInit() {}
+  ngOnInit() {
+    this.loading = false;
+  }
 }
