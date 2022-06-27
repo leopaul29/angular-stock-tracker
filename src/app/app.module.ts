@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { AddTokenInterceptor } from './core/add-token.interceptor';
 import { RouterModule } from '@angular/router';
 import { appRoutes } from './routes';
-import { CoreModule } from './core/core.module';
+import { CoreModule } from './core2/core.module';
 import { SharedModule } from './shared/shared.module';
 import {
   StockComponent,

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { pipe, Subscription } from 'rxjs';
-import { StocksTrackingService } from '../../core/stocks-tracking.service';
-import { StocksService } from '../../core/stocks.service';
+import { Subscription } from 'rxjs';
+import { StocksService } from '../../core2/stock.service';
+import { StocksManagerService } from '../../core2/stocks-manager.service';
 import { IStock } from '../../models/stock.model';
 
 @Component({
@@ -12,13 +12,13 @@ import { IStock } from '../../models/stock.model';
 export class StockFormComponent implements OnInit, OnDestroy {
   // form input
   stockSymbol: string;
-  // ADD VALIDATION_ERR
+
   stockListSubscription: Subscription;
   errorMsg: string;
 
   constructor(
     private stocksService: StocksService,
-    private stocksTraking: StocksTrackingService
+    private stocksManager: StocksManagerService
   ) {
     this.stockSymbol = '';
     this.errorMsg = '';
@@ -26,35 +26,19 @@ export class StockFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.stockListSubscription = this.stocksTraking.stock$.subscribe(
+    this.stockListSubscription = this.stocksService.stock$.subscribe(
       (data: IStock) => {
-        if (!data) {
+        if (data) {
+          this.stocksManager.addStock(data);
+        } else {
           this.errorMsg = 'Stock not found';
-          return;
-        }
-        if (
-          !this.stocksService.stockList.find((stock) => {
-            return (
-              stock.symbol === data.symbol &&
-              data.name &&
-              data.currentPrice != 0
-            );
-          })
-        ) {
-          this.stocksService.addStock(data);
-        }
-        if (
-          this.stocksService.stockList.find((stock) => {
-            return {} as IStock;
-          })
-        ) {
         }
       },
       (err) => {
         alert(err);
         console.error('Error:', err);
       },
-      () => console.log('Completed add stock')
+      () => console.log('Completed form add stock')
     );
   }
 
@@ -64,8 +48,8 @@ export class StockFormComponent implements OnInit, OnDestroy {
 
   addStock(formValues): void {
     if (formValues && formValues.stockSymbol) {
-      this.stocksTraking.selectedSymbolChanged(formValues.stockSymbol);
-      this.stocksTraking.stock$;
+      this.stocksService.selectedSymbolChanged(formValues.stockSymbol);
+      this.stocksService.stock$;
       this.stockSymbol = '';
     }
   }

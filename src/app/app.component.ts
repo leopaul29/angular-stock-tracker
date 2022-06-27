@@ -1,5 +1,5 @@
-import { Component, OnInit, VERSION } from '@angular/core';
-import { StocksService } from './core/stocks.service';
+import { Component, OnInit } from '@angular/core';
+import { StoreService } from './core2/store.service';
 
 @Component({
   selector: 'my-app',
@@ -7,9 +7,9 @@ import { StocksService } from './core/stocks.service';
   styles: [],
 })
 export class AppComponent implements OnInit {
-  constructor(private stocksService: StocksService) {}
+  constructor(private storeService: StoreService) {}
 
   ngOnInit(): void {
-    this.stocksService.load();
+    this.storeService.load();
   }
 }

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { StocksService } from '../../../core/stocks.service';
+import { StocksManagerService } from '../../../core2/stocks-manager.service';
 import { IStock } from '../../../models/stock.model';
 
 @Component({
@@ -10,13 +10,13 @@ import { IStock } from '../../../models/stock.model';
 export class StockThumbnailComponent implements OnInit {
   @Input() stock: IStock;
 
-  constructor(private stocksService: StocksService) {
+  constructor(private stocksManagerService: StocksManagerService) {
     this.stock = {} as IStock;
   }
 
   ngOnInit() {}
 
   clear() {
-    this.stocksService.remove(this.stock.symbol);
+    this.stocksManagerService.removeStock(this.stock.symbol);
   }
 }

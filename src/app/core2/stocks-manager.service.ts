@@ -3,7 +3,10 @@ import { Observable, of } from 'rxjs';
 import { IStock } from '../models/stock.model';
 import { StoreService } from './store.service';
 
-@Injectable()
+@Injectable({
+  // singleton
+  providedIn: 'root',
+})
 export class StocksManagerService {
   private stockList: IStock[];
   stockList$: Observable<IStock[]>;
@@ -24,6 +27,7 @@ export class StocksManagerService {
   addStock(stock: IStock) {
     if (this.stockList && stock && !this.stockExist(stock.symbol)) {
       this.stockList.push(stock);
+      this.storeService.store(this.stockList);
     }
   }
 
@@ -34,10 +38,11 @@ export class StocksManagerService {
       (stock) => stock && stock.symbol === symbol
     );
     this.stockList.splice(index, 1);
+    this.storeService.store(this.stockList);
   }
 
   clearAll(): void {
     this.stockList.length = 0;
-    this.storeService.clearLocalStorage();
+    this.storeService.store(this.stockList);
   }
 }

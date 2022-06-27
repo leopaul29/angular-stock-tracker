@@ -8,10 +8,10 @@ import {
   IInsiderSentiment,
 } from '../models/stock-tracking.model';
 import { ISentiment, IStock } from '../models/stock.model';
-import { StocksManagerService } from './stocks-manager.service';
 
 @Injectable()
 export class StocksService implements OnInit {
+  // API Urls
   private stockUrl: string = 'https://finnhub.io/api/v1';
   private stockQuoteUrl: string = this.stockUrl + '/quote';
   private stockProfileUrl: string = this.stockUrl + '/stock/profile2';
@@ -21,26 +21,17 @@ export class StocksService implements OnInit {
   private symbolSubject = new Subject<string>();
   symbolSelectedAction$ = this.symbolSubject.asObservable();
 
-  constructor(
-    private http: HttpClient,
-    private stocksManager: StocksManagerService
-  ) {}
+  constructor(private http: HttpClient) {}
 
-  ngOnInit(): void {
-    this.stock$.subscribe(
-      (data: IStock) => this.stocksManager.addStock(data),
-      (err) => {
-        alert(err);
-        console.error('Error:', err);
-      },
-      () => console.log('Completed add stock')
-    );
-  }
+  ngOnInit(): void {}
 
   selectedSymbolChanged(symbol: string): void {
     this.symbolSubject.next(symbol);
   }
 
+  /**
+   * Stock
+   */
   stockQuote$ = this.symbolSelectedAction$.pipe(
     switchMap((symbol: string) =>
       this.http
@@ -60,21 +51,29 @@ export class StocksService implements OnInit {
 
   stock$ = zip(this.stockProfile$, this.stockQuote$).pipe(
     map(([profile, quote]) => {
-      return {
-        symbol: profile.ticker,
-        name: profile.name,
-        country: profile.country,
-        logo: profile.logo,
-        weburl: profile.weburl,
-        marketCapitalization: profile.marketCapitalization,
-        changeToday: +quote.dp.toFixed(2),
-        openPrice: +quote.o.toFixed(2),
-        currentPrice: +quote.c.toFixed(2),
-        highPrice: +quote.h.toFixed(2),
-      } as IStock;
+      if (!!(profile?.name && quote?.c != 0)) {
+        return {
+          symbol: profile?.ticker,
+          name: profile?.name,
+          country: profile?.country,
+          logo: profile?.logo,
+          weburl: profile?.weburl,
+          marketCapitalization: profile?.marketCapitalization,
+          changeToday: +quote?.dp.toFixed(2),
+          openPrice: +quote?.o.toFixed(2),
+          currentPrice: +quote?.c.toFixed(2),
+          highPrice: +quote?.h.toFixed(2),
+        } as IStock;
+      } else {
+        console.error('stock undefined');
+      }
     }),
     catchError(this.handleError<IStock>('zipStock'))
   );
+
+  /**
+   * Stock sentiment
+   */
   stockInsiderSentiment$ = this.symbolSelectedAction$.pipe(
     switchMap((symbol: string) => {
       let threeMonthBefore = new Date(new Date());
@@ -93,9 +92,9 @@ export class StocksService implements OnInit {
   stockSentiment$ = zip(this.stockProfile$, this.stockInsiderSentiment$).pipe(
     map(([profile, sentiment]) => {
       let stockSentiment = {
-        symbol: profile.ticker,
-        name: profile.name,
-        logo: profile.logo,
+        symbol: profile?.ticker,
+        name: profile?.name,
+        logo: profile?.logo,
         monthlySentiment: sentiment.data,
       } as ISentiment;
 
@@ -104,6 +103,9 @@ export class StocksService implements OnInit {
     catchError(this.handleError<ISentiment>('zipStockSentiment'))
   );
 
+  /**
+   * Error handling
+   */
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);

@@ -3,27 +3,23 @@ import { StocksService } from '../core2/stock.service';
 import { IStock } from '../models/stock.model';
 import { StocksManagerService } from './stocks-manager.service';
 
-@Injectable()
+@Injectable({
+  // singleton
+  providedIn: 'root',
+})
 export class StoreService implements OnInit {
   private key = 'STOCKSSYMBOLLIST';
-  stockList$ = this.stocksManagerService.stockList$;
 
-  constructor(
-    private stocksManagerService: StocksManagerService,
-    private stocksService: StocksService
-  ) {}
+  constructor(private stocksService: StocksService) {}
 
-  ngOnInit(): void {
-    this.stockList$.subscribe(
-      (stocklist: IStock[]) => this.store(stocklist),
-      (err) => console.error('Error when storing the stocklist', err),
-      () => console.log('Store completed!')
-    );
-  }
+  ngOnInit(): void {}
 
   store(stocklist: IStock[]) {
-    const arr: string[] = stocklist.map((stock: IStock) => stock.symbol);
-    localStorage.setItem(this.key, JSON.stringify(arr));
+    const stocksToStore: string[] = stocklist.map(
+      (stock: IStock) => stock.symbol
+    );
+    console.log('storeService-store:', JSON.stringify(stocksToStore));
+    localStorage.setItem(this.key, JSON.stringify(stocksToStore));
   }
 
   load(): void {
@@ -34,7 +30,9 @@ export class StoreService implements OnInit {
         const tempStockList: string[] = JSON.parse(storedStocks).filter(
           (stock: string) => stock
         );
+        console.log('storeService-load:', JSON.stringify(tempStockList));
         tempStockList.map((symbol) => {
+          console.log('load', symbol);
           this.stocksService.selectedSymbolChanged(symbol);
           this.stocksService.stock$;
         });

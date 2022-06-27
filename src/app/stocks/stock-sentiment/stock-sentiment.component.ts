@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { StocksTrackingService } from '../../core/stocks-tracking.service';
+import { StocksService } from '../../core2/stock.service';
 import { ISentiment } from '../../models/stock.model';
 
 /**
@@ -17,7 +17,7 @@ export class StockSentimentComponent implements OnInit, OnDestroy {
   sentimentSubscription: Subscription;
 
   constructor(
-    private stocksTraking: StocksTrackingService,
+    private stocksService: StocksService,
     private route: ActivatedRoute
   ) {
     this.sentiment = {} as ISentiment;
@@ -26,13 +26,13 @@ export class StockSentimentComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const stockSymbol: string = this.route.snapshot.params['symbol'];
-    this.sentimentSubscription = this.stocksTraking.stockSentiment$.subscribe(
+    this.sentimentSubscription = this.stocksService.stockSentiment$.subscribe(
       (data: ISentiment) => (this.sentiment = data),
       (err) => console.error(err),
       () => console.log('Complete retrieve sentiment')
     );
-    this.stocksTraking.selectedSymbolChanged(stockSymbol);
-    this.stocksTraking.stockSentiment$;
+    this.stocksService.selectedSymbolChanged(stockSymbol);
+    this.stocksService.stockSentiment$;
   }
 
   ngOnDestroy(): void {

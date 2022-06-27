@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { FilterStocksService } from '../../core/filter-stocks.service';
-import { StocksService } from '../../core/stocks.service';
+import { StocksManagerService } from '../../core2/stocks-manager.service';
+import { StoreService } from '../../core2/store.service';
 import { IStock } from '../../models/stock.model';
 
 @Component({
@@ -14,27 +15,40 @@ export class StockListComponent implements OnInit, OnDestroy {
   visibleStockList: IStock[];
   visibleStockList$: Observable<IStock[]>;
   stockList: IStock[];
-  stockList$ = this.stocksService.stockList$;
+  stockList$: Observable<IStock[]>;
   stockListSubscription: Subscription;
 
   constructor(
-    private stocksService: StocksService,
+    private stocksManager: StocksManagerService,
     private filterStocksService: FilterStocksService
   ) {
     this.sortBy = '';
     this.visibleStockList = [];
-    this.visibleStockList$ = new Observable();
+    this.visibleStockList$ = new Observable<IStock[]>();
     this.stockList = [];
+    this.stockList$ = new Observable<IStock[]>();
     this.stockListSubscription = new Subscription();
   }
 
   ngOnInit() {
-    this.stockListSubscription = this.stockList$.subscribe((data) => {
-      console.log('stockList changed');
-      this.stockList = data;
-    });
+    this.stockList$ = this.stocksManager.stockList$;
+
+    this.stockListSubscription = this.stockList$.subscribe(
+      (data) => {
+        if (data) {
+          this.stockList = data;
+          this.applyFilter(this.sortBy);
+        }
+      },
+      (err) => {
+        alert(err);
+        console.error('Error:', err);
+      },
+      () => console.log('Completed list stock')
+    );
+
     this.visibleStockList = this.stockList;
-    this.visibleStockList$ = of(this.visibleStockList);
+    this.visibleStockList$ = this.stocksManager.stockList$;
   }
 
   ngOnDestroy(): void {
@@ -52,6 +66,6 @@ export class StockListComponent implements OnInit, OnDestroy {
   }
 
   clearAll(): void {
-    this.stocksService.clearAll();
+    this.stocksManager.clearAll();
   }
 }
