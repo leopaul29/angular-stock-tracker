@@ -53,6 +53,7 @@ export class StockFormComponent implements OnInit, OnDestroy {
     if (formValues && formValues.stockSymbol) {
       this.stocksTraking.selectedSymbolChanged(formValues.stockSymbol);
       this.stocksTraking.stock$;
+      this.stockSymbol = '';
     }
   }
 }
