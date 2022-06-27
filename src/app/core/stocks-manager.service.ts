@@ -34,7 +34,7 @@ export class StocksManagerService {
   }
 
   addStock(stock: IStock) {
-    if (this.stockList && stock && !this.stockExist(stock?.symbol)) {
+    if (this.stockList && stock) {
       this.stockList.push(stock);
       this.storage.store(this.stockList);
     }

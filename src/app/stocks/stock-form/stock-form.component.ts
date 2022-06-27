@@ -28,10 +28,16 @@ export class StockFormComponent implements OnInit, OnDestroy {
     this.stockListSubscription = this.stocksService.stock$.subscribe(
       (data: IStock) => {
         if (data) {
-          this.stocksManager.addStock(data);
+          if (!this.stocksManager.stockExist(data?.symbol)) {
+            this.stocksManager.addStock(data);
+            this.stockSymbol = '';
+          } else {
+            this.errorMsg = `Stock ${this.stockSymbol} in the list`;
+          }
         } else {
-          this.errorMsg = 'Stock not found';
+          this.errorMsg = 'Stock not found:' + this.stockSymbol;
         }
+        this.stockSymbol = '';
       },
       (err) => {
         alert(err);
@@ -49,7 +55,6 @@ export class StockFormComponent implements OnInit, OnDestroy {
     if (formValues && formValues.stockSymbol) {
       this.stocksService.selectedSymbolChanged(formValues.stockSymbol);
       this.stocksService.stock$;
-      this.stockSymbol = '';
     }
   }
 }
