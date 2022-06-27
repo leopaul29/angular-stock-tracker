@@ -40,6 +40,7 @@ export class StocksManagerService {
     this.stockList.splice(index, 1);
     this.storage.store(this.stockList);
   }
+
   clearAll(): void {
     this.stockList.length = 0;
     this.storage.store(this.stockList);

@@ -1,29 +1,17 @@
 <div class="border filter">
-  <div><b>Filters: </b></div>
-  <button (click)="clearAll()">Clear All</button>
-  <div
-    class="filter-button"
-    [class.active]="sortBy === 'name'"
-    (click)="applyFilter('name')"
-  >
-    Sort by name
-  </div>
-  <div
-    class="filter-button"
-    [class.active]="sortBy === 'currentPrice'"
-    (click)="applyFilter('currentPrice')"
-  >
-    Sort by current price
+  <div>
+    <b>Filters: </b>
+    <button (click)="clearAll()">Clear All</button>
   </div>
 </div>
-<div class="border stocklist">
-  <div *ngIf="visibleStockList$ | async as stockList">
-    <div *ngIf="!stockList"><app-loading></app-loading></div>
-    <div *ngIf="stockList.length == 0" class="list-empty">
-      No stocks in the list
-    </div>
-    <div *ngFor="let stock of stockList">
-      <app-stock-thumbnail [stock]="stock"></app-stock-thumbnail>
+  <div class="border stocklist">
+    <div *ngIf="stockList$ | async as stockList">
+      <div *ngIf="!stockList"><app-loading></app-loading></div>
+      <div *ngIf="stockList.length == 0" class="list-empty">
+        No stocks in the list
+      </div>
+      <div *ngFor="let stock of stockList">
+        <app-stock-thumbnail [stock]="stock"></app-stock-thumbnail>
+      </div>
     </div>
   </div>
-</div>

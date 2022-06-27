@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { StocksService } from '../../core2/stock.service';
 import { StocksManagerService } from '../../core2/stocks-manager.service';
-import { IStock } from '../../models/stock.model';
+import { IStock, IStockForm } from '../../models/stock.model';
 
 @Component({
   selector: 'app-stock-form',
@@ -12,9 +12,8 @@ import { IStock } from '../../models/stock.model';
 export class StockFormComponent implements OnInit, OnDestroy {
   // form input
   stockSymbol: string;
-
-  stockListSubscription: Subscription;
   errorMsg: string;
+  stockListSubscription: Subscription;
 
   constructor(
     private stocksService: StocksService,
@@ -46,7 +45,7 @@ export class StockFormComponent implements OnInit, OnDestroy {
     this.stockListSubscription.unsubscribe();
   }
 
-  addStock(formValues): void {
+  addStock(formValues: IStockForm): void {
     if (formValues && formValues.stockSymbol) {
       this.stocksService.selectedSymbolChanged(formValues.stockSymbol);
       this.stocksService.stock$;

@@ -10,20 +10,17 @@ import {
 import { ISentiment, IStock } from '../models/stock.model';
 
 @Injectable()
-export class StocksService implements OnInit {
+export class StocksService {
   // API Urls
   private stockUrl: string = 'https://finnhub.io/api/v1';
-  private stockQuoteUrl: string = this.stockUrl + '/quote';
-  private stockProfileUrl: string = this.stockUrl + '/stock/profile2';
-  private stockInsiderSentiment: string =
-    this.stockUrl + '/stock/insider-sentiment';
+  private stockQuoteUrl: string = `${this.stockUrl}/quote`;
+  private stockProfileUrl: string = `${this.stockUrl}/stock/profile2`;
+  private stockInsiderSentiment: string = `${this.stockUrl}/stock/insider-sentiment`;
 
   private symbolSubject = new Subject<string>();
   symbolSelectedAction$ = this.symbolSubject.asObservable();
 
   constructor(private http: HttpClient) {}
-
-  ngOnInit(): void {}
 
   selectedSymbolChanged(symbol: string): void {
     this.symbolSubject.next(symbol);

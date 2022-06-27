@@ -31,23 +31,6 @@ export class StockListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.stockList$ = this.stocksManager.stockList$;
-
-    this.stockListSubscription = this.stockList$.subscribe(
-      (data) => {
-        if (data) {
-          this.stockList = data;
-          this.applyFilter(this.sortBy);
-        }
-      },
-      (err) => {
-        alert(err);
-        console.error('Error:', err);
-      },
-      () => console.log('Completed list stock')
-    );
-
-    this.visibleStockList = this.stockList;
-    this.visibleStockList$ = this.stocksManager.stockList$;
   }
 
   ngOnDestroy(): void {
