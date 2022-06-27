@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { StocksService } from '../../core2/stock.service';
-import { StocksManagerService } from '../../core2/stocks-manager.service';
+import { StocksService } from '../../core/stock.service';
+import { StocksManagerService } from '../../core/stocks-manager.service';
 import { IStock, IStockForm } from '../../models/stock.model';
 
 @Component({

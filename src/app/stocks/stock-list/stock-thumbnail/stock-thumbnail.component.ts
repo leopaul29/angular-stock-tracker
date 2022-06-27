@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { StocksManagerService } from '../../../core2/stocks-manager.service';
+import { StocksManagerService } from '../../../core/stocks-manager.service';
 import { IStock } from '../../../models/stock.model';
 
 @Component({

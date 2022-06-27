@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { StocksService } from '../../core2/stock.service';
+import { StocksService } from '../../core/stock.service';
 import { ISentiment } from '../../models/stock.model';
 
 /**
