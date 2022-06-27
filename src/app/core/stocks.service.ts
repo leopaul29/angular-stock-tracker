@@ -30,6 +30,14 @@ export class StocksService {
       (stock: IStock | undefined) => stock?.symbol === symbol
     );
   }
+  // use this to check if already in the array
+  stockExist(symbol: string): boolean {
+    return (
+      this.stockList.find((stock) => {
+        return stock.symbol === symbol && stock.name && stock.currentPrice != 0;
+      }) != undefined
+    );
+  }
 
   remove(symbol: string): void {
     if (this.stockList.length <= 0) return;

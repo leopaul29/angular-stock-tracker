@@ -12,6 +12,7 @@
         maxlength="5"
       />
       <button type="submit" [disabled]="stockForm.invalid">Track Stock</button>
+      <div class="form-error">{{ errorMsg }}</div>
     </div>
   </form>
 </div>

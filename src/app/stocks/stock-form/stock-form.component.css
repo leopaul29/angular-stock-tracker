@@ -1,8 +1,13 @@
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 .form-input {
   display: flex;
   flex-direction: row;
   gap: 10px;
 }
-.form-stockSymbol {
-  text-transform: uppercase;
+.form-error {
+  color: red;
 }

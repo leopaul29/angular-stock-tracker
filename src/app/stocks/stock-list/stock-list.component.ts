@@ -30,6 +30,7 @@ export class StockListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.stockListSubscription = this.stockList$.subscribe((data) => {
+      console.log('stockList changed');
       this.stockList = data;
     });
     this.visibleStockList = this.stockList;
