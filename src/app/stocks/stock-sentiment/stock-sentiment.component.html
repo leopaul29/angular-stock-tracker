@@ -1,7 +1,7 @@
 <div *ngIf="sentiment" class="border sentiment">
   <div class="sentiment-header">
     <img
-      *ngIf="sentiment.logo"
+      *ngIf="sentiment?.logo"
       src="{{ sentiment?.logo }}"
       alt="{{ sentiment?.name }}"
       width="50"
@@ -9,8 +9,9 @@
     <h3>{{ sentiment?.name | uppercase }}</h3>
   </div>
   <div class="sentiment-body">
+    <div *ngIf="!sentiment?.monthlySentiment"><app-loading></app-loading></div>
     <div
-      *ngIf="sentiment?.monthlySentiment.length > 0"
+      *ngIf="sentiment?.monthlySentiment?.length > 0"
       class="sentiment-monthly"
     >
       <div *ngFor="let monthlySentiment of sentiment?.monthlySentiment">

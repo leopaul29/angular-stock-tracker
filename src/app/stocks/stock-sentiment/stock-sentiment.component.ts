@@ -29,7 +29,7 @@ export class StockSentimentComponent implements OnInit, OnDestroy {
     this.sentimentSubscription = this.stocksTraking.stockSentiment$.subscribe(
       (data: ISentiment) => (this.sentiment = data),
       (err) => console.error(err),
-      () => console.log('complete')
+      () => console.log('Complete retrieve sentiment')
     );
     this.stocksTraking.selectedSymbolChanged(stockSymbol);
     this.stocksTraking.stockSentiment$;

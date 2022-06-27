@@ -84,7 +84,7 @@ export class StocksService {
           logo: data.logo,
         };
       },
-      (err: any) => console.log(err)
+      (err: any) => console.error(err)
     );
 
     this.stocksCustomLoader.getStockQuote(symbol).subscribe(
@@ -103,7 +103,7 @@ export class StocksService {
           highPrice: +data.highPrice.toFixed(2),
         };
       },
-      (err: any) => console.log(err)
+      (err: any) => console.error(err)
     );
   }
 }

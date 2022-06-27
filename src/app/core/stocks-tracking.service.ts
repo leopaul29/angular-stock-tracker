@@ -24,20 +24,16 @@ export class StocksTrackingService {
 
   stockQuote$ = this.symbolSelectedAction$.pipe(
     switchMap((symbol: string) =>
-      this.http.get<IQuote>(`${this.stocksUrl}/quote?symbol=${symbol}`).pipe(
-        //tap((data) => console.log('quote', JSON.stringify(data))),
-        catchError(this.handleError<IQuote>('quote'))
-      )
+      this.http
+        .get<IQuote>(`${this.stocksUrl}/quote?symbol=${symbol}`)
+        .pipe(catchError(this.handleError<IQuote>('quote')))
     )
   );
   stockProfile$ = this.symbolSelectedAction$.pipe(
     switchMap((symbol: string) =>
       this.http
         .get<IProfile>(`${this.stocksUrl}/stock/profile2?symbol=${symbol}`)
-        .pipe(
-          //tap((data) => console.log('profile', JSON.stringify(data))),
-          catchError(this.handleError<IProfile>('stock/profile2'))
-        )
+        .pipe(catchError(this.handleError<IProfile>('stock/profile2')))
     )
   );
 
@@ -56,7 +52,6 @@ export class StocksTrackingService {
         highPrice: +quote.h.toFixed(2),
       } as IStock;
     }),
-    //tap((data) => console.log('stock', JSON.stringify(data))),
     catchError(this.handleError<IStock>('zipStock'))
   );
   stockInsiderSentiment$ = this.symbolSelectedAction$.pipe(
@@ -73,10 +68,7 @@ export class StocksTrackingService {
         .get<IInsiderSentiment>(
           `${this.stocksUrl}/stock/insider-sentiment?symbol=${symbol}&from=${from}&to=${to}`
         )
-        .pipe(
-          //tap((data) => console.log('sentiment', JSON.stringify(data))),
-          catchError(this.handleError<IInsiderSentiment>('sentiment'))
-        );
+        .pipe(catchError(this.handleError<IInsiderSentiment>('sentiment')));
     })
   );
 
@@ -91,7 +83,6 @@ export class StocksTrackingService {
 
       return stockSentiment;
     }),
-    //tap((data) => console.log('stock', JSON.stringify(data))),
     catchError(this.handleError<ISentiment>('zipStockSentiment'))
   );
 
@@ -102,51 +93,3 @@ export class StocksTrackingService {
     };
   }
 }
-
-/*a$ = forkJoin({
-    quote: this.stockQuote$,
-    profile: this.stockProfile$,
-  }).pipe(
-    map((stock) => {
-      if (!stock.profile?.name) return;
-
-      let s = {
-        symbol: stock.profile.ticker,
-        name: stock.profile.name,
-        country: stock.profile.country,
-        logo: stock.profile.logo,
-        weburl: stock.profile.weburl,
-        marketCapitalization: stock.profile.marketCapitalization,
-        changeToday: stock.quote.dp,
-        openPrice: stock.quote.o,
-        currentPrice: stock.quote.c,
-        highPrice: stock.quote.h,
-      } as IStock;
-      console.log('s', s);
-      return s;
-    }),
-    tap((data) => console.log('stock', JSON.stringify(data))),
-    catchError(this.handleError<IStock>('combineStock'))
-  );
-*/
-
-/*stock$ = combineLatest([this.stockQuote$, this.stockProfile$]).pipe(
-    map(([quote, profile]) => {
-      if (!profile?.name) return;
-
-      return {
-        symbol: profile.ticker,
-        name: profile.name,
-        country: profile.country,
-        logo: profile.logo,
-        weburl: profile.weburl,
-        marketCapitalization: profile.marketCapitalization,
-        changeToday: quote.dp,
-        openPrice: quote.o,
-        currentPrice: quote.c,
-        highPrice: quote.h,
-      } as IStock;
-    }),
-    tap((data) => console.log('stock', JSON.stringify(data))),
-    catchError(this.handleError<IStock>('combineStock'))
-  );*/

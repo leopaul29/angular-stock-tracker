@@ -26,7 +26,6 @@ export class StockFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.stockListSubscription = this.stocksTraking.stock$.subscribe(
       (data: IStock) => {
-        console.log('GOT1:', data);
         if (
           data &&
           !this.stocksService.stockList.find((stock) => {
@@ -40,8 +39,8 @@ export class StockFormComponent implements OnInit, OnDestroy {
           this.stocksService.addStock(data);
         }
       },
-      (err) => console.log('Error:', err),
-      () => console.log('Completed')
+      (err) => console.error('Error:', err),
+      () => console.log('Completed add stock')
     );
   }
 
@@ -49,7 +48,7 @@ export class StockFormComponent implements OnInit, OnDestroy {
     this.stockListSubscription.unsubscribe();
   }
 
-  addStock(formValues: IStockForm): void {
+  addStock(formValues): void {
     if (formValues && formValues.stockSymbol) {
       this.stocksTraking.selectedSymbolChanged(formValues.stockSymbol);
       this.stocksTraking.stock$;
