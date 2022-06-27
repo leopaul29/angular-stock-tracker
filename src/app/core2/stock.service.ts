@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Observable, of, Subject, zip } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import {
@@ -8,9 +8,10 @@ import {
   IInsiderSentiment,
 } from '../models/stock-tracking.model';
 import { ISentiment, IStock } from '../models/stock.model';
+import { StocksManagerService } from './stocks-manager.service';
 
 @Injectable()
-export class StocksService {
+export class StocksService implements OnInit {
   private stockUrl: string = 'https://finnhub.io/api/v1';
   private stockQuoteUrl: string = this.stockUrl + '/quote';
   private stockProfileUrl: string = this.stockUrl + '/stock/profile2';
@@ -20,7 +21,21 @@ export class StocksService {
   private symbolSubject = new Subject<string>();
   symbolSelectedAction$ = this.symbolSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private stocksManager: StocksManagerService
+  ) {}
+
+  ngOnInit(): void {
+    this.stock$.subscribe(
+      (data: IStock) => this.stocksManager.addStock(data),
+      (err) => {
+        alert(err);
+        console.error('Error:', err);
+      },
+      () => console.log('Completed add stock')
+    );
+  }
 
   selectedSymbolChanged(symbol: string): void {
     this.symbolSubject.next(symbol);

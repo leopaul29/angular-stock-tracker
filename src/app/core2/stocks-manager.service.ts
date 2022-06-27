@@ -13,8 +13,18 @@ export class StocksManagerService {
     this.stockList$ = of(this.stockList);
   }
 
+  stockExist(symbol: string): boolean {
+    return (
+      this.stockList.find((stock) => {
+        return stock.symbol === symbol && stock.name && stock.currentPrice != 0;
+      }) != undefined
+    );
+  }
+
   addStock(stock: IStock) {
-    this.stockList.push(stock);
+    if (this.stockList && stock && !this.stockExist(stock.symbol)) {
+      this.stockList.push(stock);
+    }
   }
 
   removeStock(symbol: string): void {

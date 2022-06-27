@@ -1,4 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
+import { StocksService } from '../core2/stock.service';
 import { IStock } from '../models/stock.model';
 import { StocksManagerService } from './stocks-manager.service';
 
@@ -7,7 +8,10 @@ export class StoreService implements OnInit {
   private key = 'STOCKSSYMBOLLIST';
   stockList$ = this.stocksManagerService.stockList$;
 
-  constructor(private stocksManagerService: StocksManagerService) {}
+  constructor(
+    private stocksManagerService: StocksManagerService,
+    private stocksService: StocksService
+  ) {}
 
   ngOnInit(): void {
     this.stockList$.subscribe(
@@ -23,15 +27,17 @@ export class StoreService implements OnInit {
   }
 
   load(): void {
-    /*this.clearAllStocksSymbol();
     let storedStocks = localStorage.getItem(this.key);
 
-    if (storedStocks && this.stocksSymbol) {
+    if (storedStocks) {
       try {
-        this.stocksSymbol = new Set(
-          JSON.parse(storedStocks).filter((stock: string) => stock)
+        const tempStockList: string[] = JSON.parse(storedStocks).filter(
+          (stock: string) => stock
         );
-        this.store();
+        tempStockList.map((symbol) => {
+          this.stocksService.selectedSymbolChanged(symbol);
+          this.stocksService.stock$;
+        });
       } catch (err) {
         alert(
           'An error has been detected while decoding the stocklist in local memory.\nThe stocklist has been cleared'
@@ -40,10 +46,9 @@ export class StoreService implements OnInit {
           'Cannot restor stock data. The stocklist has been cleared',
           err
         );
-        this.clearAllStocksSymbol();
         this.clearLocalStorage();
       }
-    }*/
+    }
   }
 
   clearLocalStorage(): void {
