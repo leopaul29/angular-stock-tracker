@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'my-app',
@@ -11,10 +11,10 @@ import { environment } from 'src/environments/environment';
   styles: [],
 })
 export class AppComponent implements OnInit {
-  title:string
+  title: string;
   constructor() {}
 
   ngOnInit(): void {
-    this.title=environment.title
+    this.title = environment.title;
   }
 }
