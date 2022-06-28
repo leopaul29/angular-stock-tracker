@@ -5,8 +5,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-const stockAPIToken: string = 'bu4f8kn48v6uehqi3cqg';
+import { environment } from '../../environments/environment';
 
 export class AddTokenInterceptor implements HttpInterceptor {
   intercept(
@@ -15,7 +14,7 @@ export class AddTokenInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     const modifiedRequest = req.clone({
       setParams: {
-        token: stockAPIToken,
+        token: environment.stockAPIToken,
       },
     });
     return next.handle(modifiedRequest);

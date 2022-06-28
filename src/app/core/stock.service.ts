@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, Subject, zip } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 import {
   IProfile,
   IQuote,
@@ -9,11 +10,10 @@ import {
 } from '../models/stock-tracking.model';
 import { ISentiment, IStock } from '../models/stock.model';
 
-const stocksAPIUrl: string = 'https://finnhub.io/api/v1';
 @Injectable()
 export class StocksService {
   // API Urls
-  private stockUrl: string = stocksAPIUrl;
+  private stockUrl: string = environment.stocksAPIUrl;
   private stockQuoteUrl: string = `${this.stockUrl}/quote`;
   private stockProfileUrl: string = `${this.stockUrl}/stock/profile2`;
   private stockInsiderSentiment: string = `${this.stockUrl}/stock/insider-sentiment`;
